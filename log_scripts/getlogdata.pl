@@ -12,7 +12,7 @@ $linecount = 0;
 #JSON file setup:
 $prev_line;
 $installed_package;
-$date = `date`;
+$date = `date | tr -d '\n'`;
 $hostname;
 
 while($line = <INFILE>){
