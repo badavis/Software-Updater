@@ -1,0 +1,21 @@
+well.cs.ucr.edu
+Installed Packages
+kernel.x86_64                   2.6.18-371.11.1.el5                    installed
+kernel.x86_64                   2.6.18-371.12.1.el5                    installed
+kernel.x86_64                   2.6.18-398.el5                         installed
+kernel.x86_64                   2.6.18-400.el5                         installed
+kernel.x86_64                   2.6.18-400.1.1.el5                     installed
+Available Packages
+kernel.x86_64                   2.6.18-402.el5                         updates  
+Installed Packages
+kernel-devel.x86_64                2.6.18-371.11.1.el5                 installed
+kernel-devel.x86_64                2.6.18-371.12.1.el5                 installed
+kernel-devel.x86_64                2.6.18-398.el5                      installed
+kernel-devel.x86_64                2.6.18-400.el5                      installed
+kernel-devel.x86_64                2.6.18-400.1.1.el5                  installed
+Available Packages
+kernel-devel.x86_64                2.6.18-402.el5                      updates  
+Installed Packages
+kernel-headers.x86_64                2.6.18-400.1.1.el5                installed
+Available Packages
+kernel-headers.x86_64                2.6.18-402.el5                    updates  
