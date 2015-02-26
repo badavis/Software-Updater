@@ -33,6 +33,7 @@ mv ./$host_id.pub ~/.ssh
 #---------------------------------------
 
 #Copy public key to use in client installer
+mkdir ./host/client_gen/client/keys
 cp ~/.ssh/$host_id.pub ./host/client_gen/client/keys
 
 #Create and populate client installer directory
