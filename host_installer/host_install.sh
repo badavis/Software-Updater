@@ -1,5 +1,8 @@
 #!/bin/bash
 
+#Exit automatically if any errors occur
+set -e
+
 #---------------------------------------
 #   HOST INSTALLATION
 #---------------------------------------
@@ -11,13 +14,6 @@ yum -y install perl
 yum -y install openssh-clients
 yum -y install openssh-server
 
-#Install web interface to appropriate location
-cp -a ./host/web_interface/* /var/www/html
-
-#Start apache and configure to run automatically at boot
-service httpd start
-chkconfig httpd on
-
 #Create SSH directory and set permissions
 mkdir ~/.ssh
 chmod 700 ~/.ssh
@@ -27,6 +23,13 @@ host_id=`hostname`
 ssh-keygen -q -f "$host_id" -N ""
 mv ./$host_id ~/.ssh
 mv ./$host_id.pub ~/.ssh
+
+#Install web interface to appropriate location
+cp -a ./host/web_interface/* /var/www/html
+
+#Start apache and configure to run automatically at boot
+service httpd start
+chkconfig httpd on
 
 #---------------------------------------
 #   Create client files and installer
