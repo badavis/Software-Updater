@@ -26,6 +26,12 @@ ssh-keygen -q -f "$client_id" -N ""
 mv ./$client_id ~/.ssh
 mv ./$client_id.pub ~/.ssh
 
+#Copy program files
+
+#---------------------------------------
+#   SSH HANDSHAKE
+#---------------------------------------
+
 #Advise user SSH key exchange will begin
 echo ""
 echo "---------------------------------------"

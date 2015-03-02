@@ -34,8 +34,10 @@ cp -a ./host/web_interface/* /var/www/html
 service httpd start
 chkconfig httpd on
 
+#Copy program files
+
 #---------------------------------------
-#   Create client files and installer
+#   CREATE CLIENT FILES AND INSTALLER
 #---------------------------------------
 
 #Add host machine IP and hostname to required areas in client scripts
