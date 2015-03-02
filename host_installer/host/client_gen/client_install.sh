@@ -17,25 +17,37 @@ yum -y install openssh-server
 mkdir ~/.ssh
 chmod 700 ~/.ssh
 
-#Get IP Address of client
+#Get Variables
 client_ip=`ifconfig | grep -Eo 'inet (addr:)?([0-9]*\.){3}[0-9]*' | grep -Eo '([0-9]*\.){3}[0-9]*' | grep -v '127.0.0.1'`
-
-#Get hostname and generate SSH keys to appropriate location
 client_id=`hostname`
+
+#Generate SSH keys to appropriate location
 ssh-keygen -q -f "$client_id" -N ""
 mv ./$client_id ~/.ssh
 mv ./$client_id.pub ~/.ssh
 
+#Advise user SSH key exchange will begin
+echo ""
+echo "---------------------------------------"
+echo "SSH key exchange will now begin. Please"
+echo "enter required credentials and confirm"
+echo "permanent storage of RSA ID's."
+echo "---------------------------------------"
+echo ""
+
 #Set up client -> host connection
 echo ""
-nmap -sP 10.0.2.0-25
+echo "---------------------------------------"
+echo "      client -> host handshake         "
+echo "---------------------------------------"
 echo ""
-echo "Please enter the IP of the host machine. (Use above output for assistance)."
-read host_ip
-echo "Please enter the hostname of the host machine."
-read host_id
-cat ~/.ssh/$client_id.pub | ssh root@$host_ip "mkdir -p ~/.ssh && cat >> ~/.ssh/authorized_keys"
+cat ~/.ssh/$client_id.pub | ssh root@GENERATED_HOST_IP "mkdir -p ~/.ssh && cat >> ~/.ssh/authorized_keys"
 
 #Set up host -> client connection
+echo ""
+echo "---------------------------------------"
+echo "      host -> client handshake         "
+echo "---------------------------------------"
+echo ""
 cat ./client/keys/*.pub >> ~/.ssh/authorized_keys
-ssh root@$host_ip -t -i ~/.ssh/$client_id "ssh root@$client_ip -i ~/.ssh/$host_id"
+ssh root@GENERATED_HOST_IP -t -i ~/.ssh/$client_id "ssh root@$client_ip -i ~/.ssh/GENERATED_HOST_ID"

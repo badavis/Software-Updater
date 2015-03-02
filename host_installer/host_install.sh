@@ -18,8 +18,11 @@ yum -y install openssh-server
 mkdir ~/.ssh
 chmod 700 ~/.ssh
 
-#Get hostname and generate SSH keys to appropriate location
+#Get Variables
 host_id=`hostname`
+host_ip=`ifconfig | grep -Eo 'inet (addr:)?([0-9]*\.){3}[0-9]*' | grep -Eo '([0-9]*\.){3}[0-9]*' | grep -v '127.0.0.1'`
+
+#Generate SSH keys to appropriate location
 ssh-keygen -q -f "$host_id" -N ""
 mv ./$host_id ~/.ssh
 mv ./$host_id.pub ~/.ssh
@@ -34,6 +37,10 @@ chkconfig httpd on
 #---------------------------------------
 #   Create client files and installer
 #---------------------------------------
+
+#Add host machine IP and hostname to required areas in client scripts
+sed -i "s/GENERATED_HOST_IP/$host_ip/g" ./host/client_gen/client_install.sh
+sed -i "s/GENERATED_HOST_ID/$host_id/g" ./host/client_gen/client_install.sh
 
 #Copy public key to use in client installer
 mkdir ./host/client_gen/client/keys
