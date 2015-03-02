@@ -1,5 +1,5 @@
 $( document ).ready(function() {
-    $.getJSON('updatelog.json', function(data) {
+    $.getJSON('/sccm/farm1_current.log', function(data) {
 	
 		var output = 	 "<tr> <td>List of Machines </td> <td>Up To Date </td> <td>Online State</td> </tr>"
 	
