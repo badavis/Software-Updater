@@ -35,6 +35,11 @@ service httpd start
 chkconfig httpd on
 
 #Copy program files
+mkdir /etc/sccm
+chmod 770 /etc/sccm
+cp -a ./host/program_files/* /etc/sccm
+echo "" > /etc/sccm/clients.txt
+chmod 770 /etc/sccm/*
 
 #---------------------------------------
 #   CREATE CLIENT FILES AND INSTALLER
