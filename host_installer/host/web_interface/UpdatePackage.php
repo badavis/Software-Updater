@@ -2,6 +2,7 @@
 <?php
 
 $hosty = $_POST['host'];
+$name = $_POST['name'];
 $ssh = ssh2_connect($hosty, 22);
 if(ssh2_auth_password($ssh, 'root', 'awesomegroup')){
 	echo "Authentication Successful\n";
@@ -9,6 +10,6 @@ if(ssh2_auth_password($ssh, 'root', 'awesomegroup')){
 else{
 	die('Authentication failed');
 }
-ssh2_exec($ssh, '/etc/sccm/scripts/UpdateAll.sh');
+ssh2_exec($ssh, '/etc/sccm/scripts/UpdatePackage.sh $name');
 
 ?>
