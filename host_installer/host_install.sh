@@ -13,7 +13,12 @@ yum -y install httpd
 yum -y install perl
 yum -y install openssh-clients
 yum -y install openssh-server
-yum -y install gcc php-devel php-pear libssh2 libssh2-devel make
+yum -y install gcc 
+yum -y install php-devel 
+yum -y install php-pear 
+yum -y install libssh2 
+yum -y install libssh2-devel 
+yum -y install make
 
 
 #Install ssh2 extension for php
