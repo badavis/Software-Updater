@@ -55,9 +55,10 @@ close $FILE;
 
 $hostname_archive = "$hostname"."_archive.log";
 $hostname_current = "$hostname"."_current.log";
+$client_id = `hostname`;
 
-`cat $filename | ssh root\@10.0.2.7 "cat >> /root/logs/$hostname_archive"`;
-`cat $filename | ssh root\@10.0.2.7 "cat > /root/logs/$hostname_current"`;
+`cat $filename | ssh root\@10.0.2.7 -i ~/.ssh/$client_id "cat >> /root/logs/$hostname_archive"`;
+`cat $filename | ssh root\@10.0.2.7 -i ~/.ssh/$client_id "cat > /root/logs/$hostname_current"`;
 
 exit 0;
 	 
