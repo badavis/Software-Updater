@@ -13,6 +13,15 @@ yum -y install httpd
 yum -y install perl
 yum -y install openssh-clients
 yum -y install openssh-server
+yum -y install gcc php-devel php-pear libssh2 libssh2-devel make
+
+
+#Install ssh2 extension for php
+yes '' | pecl install -f ssh2
+touch /etc/php.d/ssh2.ini
+echo extension=ssh2.so > /etc/php.d/ssh2.ini
+
+
 
 #Create SSH directory and set permissions
 mkdir ~/.ssh
