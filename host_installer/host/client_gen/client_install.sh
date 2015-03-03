@@ -60,4 +60,4 @@ echo "      host -> client handshake         "
 echo "---------------------------------------"
 echo ""
 cat ./client/keys/*.pub >> ~/.ssh/authorized_keys
-ssh root@GENERATED_HOST_IP -t -i ~/.ssh/$client_id "ssh root@$client_ip -i ~/.ssh/GENERATED_HOST_ID"
+ssh root@GENERATED_HOST_IP -t -i ~/.ssh/$client_id "echo $client_id $client_ip >> /etc/sccm/clients; ssh root@$client_ip -i ~/.ssh/GENERATED_HOST_ID"
