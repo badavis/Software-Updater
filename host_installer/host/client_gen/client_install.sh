@@ -53,7 +53,7 @@ echo "---------------------------------------"
 echo ""
 cat ~/.ssh/$client_id.pub | ssh root@GENERATED_HOST_IP "mkdir -p ~/.ssh && cat >> ~/.ssh/authorized_keys"
 
-#Set up host -> client connection
+#Set up host -> client connection and add client to list of monitored machines
 echo ""
 echo "---------------------------------------"
 echo "      host -> client handshake         "
