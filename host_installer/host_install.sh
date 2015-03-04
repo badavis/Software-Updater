@@ -42,6 +42,9 @@ mv ./$host_id.pub ~/.ssh
 cp -a ./host/web_interface/* /var/www/html
 chmod -R 777 /var/www/html
 
+#Bug #2 - Modify html configuration file as appropriate
+sed -i "s/#ServerName www.example.com:80/#ServerName www.example.com:80\n\nServerName localhost:80/g" /etc/httpd/conf/httpd.conf
+
 #Start apache and configure to run automatically at boot
 service httpd start
 chkconfig httpd on
