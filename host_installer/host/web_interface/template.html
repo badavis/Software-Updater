@@ -68,6 +68,29 @@
               width: 300px;
               }
 
+#sticky1{
+ /* for safari */
+   position: fixed;
+   bottom: 0px;
+   left: 0px;
+  padding: 0;
+   margin: 0;
+}
+
+#sticky2{
+ /* for safari */
+   position: fixed;
+   bottom: 0px;
+   right: 0px;
+  padding: 0;
+   margin: 0;
+}
+
+#whitespace{
+  height:121px;
+  width:700px;
+}
+
 
         </style>
 
@@ -164,6 +187,7 @@
 
 
 
+
       <!-- /END THE FEATURETTES -->
 
 
@@ -183,16 +207,20 @@
   </tr>
 </table>
 
-<center>
+</br>
+<div id = "whitespace">
+  </div>
+
+
 <table>
   <tr>
     <td>
 
-<div class="panel panel-success">
+<div class="panel panel-success" id = "sticky1">
   <div class="panel-heading">
     <h3 class="panel-title" >SYSTEM LOG - <a href = "/sccm/SYSLOG.log"><font color="#3980C6"> View Full Log </a></font></h3>
   </div>
-  <div class="panel-body" style="min-height: 500px; min-width: 600px; max-height: 501px; overflow-y: scroll;">
+  <div class="panel-body" style="min-height: 120px; min-width: 50vw; max-height: 121px; max-width: 50vw; overflow-y: scroll;">
 
     <div >
   <p id="SYSLOG"></p>
@@ -202,11 +230,11 @@
 </div>
     </td>
     <td>
-<div class="panel panel-danger">
-  <div class="panel-heading">
-    <h3 class="panel-title">ERROR LOG - <a href = "/sccm/ERRLOG.log"><font color="#3980C6"> View Full Log </a> </font></h3>
+<div class="panel panel-danger" id = "sticky2" >
+  <div class="panel-heading" >
+    <h3 class="panel-title" >ERROR LOG - <a href = "/sccm/ERRLOG.log"><font color="#3980C6"> View Full Log </a> </font></h3>
   </div>
-  <div class="panel-body" style="min-height: 500px; min-width: 600px; max-height: 501px; overflow-y: scroll">
+  <div class="panel-body" style="min-height: 120px; min-width: 50vw; max-height: 121px; max-width: 50vw; overflow-y: scroll;">
     <div >
   <p id="ERRLOG"></p>
 </div>
@@ -217,7 +245,6 @@
     </td>
   </tr>
 </table>
-</center>
 
   
     
@@ -231,9 +258,7 @@
     <script src="js/bootstrap.min.js"></script>
     <!--<script src="../../assets/js/docs.min.js"></script>-->
     <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
-    <!--<script ssrc="../../assets/js/ie10-viewport-bug-workaround.js"></script>-->
-
-
+    <!--<script ssrc="../../assets/js/ie10-viewport-bug-workaround.js"></script>-
 
     
 
