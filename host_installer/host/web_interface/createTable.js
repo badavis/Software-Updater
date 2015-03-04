@@ -136,7 +136,7 @@ $( document ).ready( function(){
     				var old = data.Packages[key][0];
     				var curr = data.Packages[key][1];
     				output += "<tr><td></td> <td>" + key + "</td><td>" + old + "</td><td>" + curr + 
-    				"</td> <td class = \"" + client + key + "\"> <a onclick=\"return UpdatePackage(\'" + data.hostname + "\', \'" + key + "\');\"> Update Package </a> </td> </tr>";
+    				"</td> <td class = \"" + client + key + "\"> <a onclick=\"return UpdatePackage(\'" + data.hostname + "\', \'" + key + "\');\"> <span style=\"cursor:pointer\"> Update Package </span> </a> </td> </tr>";
     				console.log('adding click handler:' + client + key);
     			}
     
