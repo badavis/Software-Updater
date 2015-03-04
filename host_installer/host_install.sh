@@ -61,6 +61,7 @@ chmod -R 777 /var/www/html/sccm
 #Add host machine IP and hostname to required areas in client scripts
 sed -i "s/GENERATED_HOST_IP/$host_ip/g" ./host/client_gen/client_install.sh
 sed -i "s/GENERATED_HOST_ID/$host_id/g" ./host/client_gen/client_install.sh
+sed -i "s/GENERATED_HOST_ID/$host_id/g" ./host/client_gen/client/program_files/*
 
 #Copy public key to use in client installer
 mkdir ./host/client_gen/client/keys

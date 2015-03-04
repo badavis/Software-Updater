@@ -1,5 +1,5 @@
 #!/bin/bash
-host="10.0.2.7"
+host="GENERATED_HOST_ID"
 yum update -y 1>OUT 2>ERR
 client_id=`hostname`
 cat ERR | ssh root@$host -i ~/.ssh/$client_id "cat >> /var/www/html/sccm/ERRLOG.log"
