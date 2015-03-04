@@ -1,6 +1,6 @@
 <? phpinfo(); ?>
 <?php
 
-passthru('cat /var/www/html/sccm/ERRLOG.log');
+print nl2br(shell_exec('tail -n 20 /var/www/html/sccm/ERRLOG.log'));
 
 ?>
