@@ -27,9 +27,9 @@ mv ./$client_id ~/.ssh
 mv ./$client_id.pub ~/.ssh
 
 #Copy program files
-mkdir /var/www/html/sccm
-cp -a ./client/program_files/* /var/www/html/sccm
-chmod -R 777 /var/www/html/sccm
+mkdir /etc/sccm
+cp -a ./client/program_files/* /etc/sccm
+chmod -R 777 /etc/sccm
 
 #---------------------------------------
 #   SSH HANDSHAKE
