@@ -13,20 +13,17 @@ yum -y install httpd
 yum -y install perl
 yum -y install openssh-clients
 yum -y install openssh-server
-yum -y install gcc 
-yum -y install php-devel 
-yum -y install php-pear 
-yum -y install libssh2 
-yum -y install libssh2-devel 
+yum -y install gcc
+yum -y install php-devel
+yum -y install php-pear
+yum -y install libssh2
+yum -y install libssh2-devel
 yum -y install make
-
 
 #Install ssh2 extension for php
 yes '' | pecl install -f ssh2
 touch /etc/php.d/ssh2.ini
 echo extension=ssh2.so > /etc/php.d/ssh2.ini
-
-
 
 #Create SSH directory and set permissions
 mkdir ~/.ssh
@@ -49,9 +46,10 @@ service httpd start
 chkconfig httpd on
 
 #Copy program files
-mkdir /etc/sccm
-chmod 770 /etc/sccm
-cp -a ./host/program_files/* /etc/sccm
+mkdir /var/www/html/sccm
+chmod 770 /var/www/html/sccm
+cp -a ./host/program_files/* /var/www/html/sccm
+chmod 770 /var/www/html/sccm*
 
 #---------------------------------------
 #   CREATE CLIENT FILES AND INSTALLER
