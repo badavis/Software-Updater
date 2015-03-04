@@ -42,6 +42,9 @@ mv ./$host_id.pub ~/.ssh
 cp -a ./host/web_interface/* /var/www/html
 chmod -R 777 /var/www/html
 
+#Bug #2 - Modify html configuration file as appropriate
+sed -i "s/#ServerName www.example.com:80/#ServerName www.example.com:80\n\nServerName localhost:80/g" /etc/httpd/conf/httpd.conf
+
 #Start apache and configure to run automatically at boot
 service httpd start
 chkconfig httpd on
@@ -58,6 +61,7 @@ chmod -R 777 /var/www/html/sccm
 #Add host machine IP and hostname to required areas in client scripts
 sed -i "s/GENERATED_HOST_IP/$host_ip/g" ./host/client_gen/client_install.sh
 sed -i "s/GENERATED_HOST_ID/$host_id/g" ./host/client_gen/client_install.sh
+sed -i "s/GENERATED_HOST_ID/$host_id/g" ./host/client_gen/client/program_files/*
 
 #Copy public key to use in client installer
 mkdir ./host/client_gen/client/keys
