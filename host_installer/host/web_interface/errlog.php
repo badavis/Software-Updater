@@ -1,6 +1,6 @@
 <? phpinfo(); ?>
 <?php
 
-passthru('cat /etc/sccm/ERRLOG.log');
+passthru('cat /var/www/html/sccm/ERRLOG.log');
 
 ?>
