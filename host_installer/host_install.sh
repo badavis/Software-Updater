@@ -20,13 +20,10 @@ yum -y install libssh2
 yum -y install libssh2-devel 
 yum -y install make
 
-
 #Install ssh2 extension for php
 yes '' | pecl install -f ssh2
 touch /etc/php.d/ssh2.ini
 echo extension=ssh2.so > /etc/php.d/ssh2.ini
-
-
 
 #Create SSH directory and set permissions
 mkdir ~/.ssh
