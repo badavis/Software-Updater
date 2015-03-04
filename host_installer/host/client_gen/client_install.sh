@@ -32,6 +32,12 @@ mkdir /etc/sccm
 cp -a ./client/program_files/* /etc/sccm
 chmod -R 777 /etc/sccm
 
+#Add Get Logdata to cron
+crontab -l > mycron
+echo "* * * * * /etc/sccm/getlogdata.pl" >> mycron
+crontab mycron
+rm mycron
+
 #---------------------------------------
 #   SSH HANDSHAKE
 #---------------------------------------

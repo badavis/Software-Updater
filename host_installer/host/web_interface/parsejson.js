@@ -105,7 +105,7 @@ function generateDropdown(clientName){
 						var old = data.Packages[key][0];
 						var curr = data.Packages[key][1];
 						output += "<tr><td></td> <td>" + key + "</td><td>" + old + "</td><td>" + curr + 
-						"</td> <td class = \"" + clientName + key + "\"> <a onclick=\"return UpdatePackage(\'10.0.2.6\', \'" + key + "\');\"> Update Package </a> </td> </tr>";
+						"</td> <td class = \"" + clientName + key + "\"> <a onclick=\"return UpdatePackage(\'" + data.hostname + "\', \'" + key + "\');\"> Update Package </a> </td> </tr>";
 						console.log('adding click handler:' + clientName + key);
 					}
 
@@ -173,7 +173,7 @@ function listPackages(clientName){
 				}
 				output+="<td>" + "BRUH" + "</td>";
 
-				output+="<td>" + "<a href=\"#output\" onclick=\"return UpdateAll();\"> Update All Packages </a>" + "</td>";
+				output+="<td>" + "<a href=\"#output\" onclick=\"return UpdateAll(\'" + data.hostname + "\');\"> Update All Packages </a>" + "</td>";
 				output+="<td id=\"output\">" + "output goes here" + "</td>";
 
 				getSyslog();
