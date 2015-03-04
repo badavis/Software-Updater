@@ -10,6 +10,6 @@ if(ssh2_auth_password($ssh, 'root', 'awesomegroup')){
 else{
 	die('Authentication failed');
 }
-ssh2_exec($ssh, '/etc/sccm/scripts/UpdatePackage.sh $name');
+ssh2_exec($ssh, '/etc/sccm/UpdatePackage.sh $name');
 
 ?>
