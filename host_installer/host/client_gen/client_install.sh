@@ -17,9 +17,10 @@ yum -y install openssh-server
 mkdir ~/.ssh
 chmod 700 ~/.ssh
 
-#Get Variables
+#Set Variables
 client_ip=`ifconfig | grep -Eo 'inet (addr:)?([0-9]*\.){3}[0-9]*' | grep -Eo '([0-9]*\.){3}[0-9]*' | grep -v '127.0.0.1'`
 client_id=`hostname`
+replacement_string="$client_id\": [\n\t\t\"$client_ip\"\n\t],\n\t\"comment"
 
 #Generate SSH keys to appropriate location
 ssh-keygen -q -f "$client_id" -N ""
@@ -28,9 +29,8 @@ mv ./$client_id.pub ~/.ssh
 
 #Copy program files
 mkdir /etc/sccm
-chmod 770 /etc/sccm
 cp -a ./client/program_files/* /etc/sccm
-chmod 770 /etc/sccm/*
+chmod -R 777 /etc/sccm
 
 #---------------------------------------
 #   SSH HANDSHAKE
@@ -60,4 +60,15 @@ echo "      host -> client handshake         "
 echo "---------------------------------------"
 echo ""
 cat ./client/keys/*.pub >> ~/.ssh/authorized_keys
-ssh root@GENERATED_HOST_IP -t -i ~/.ssh/$client_id "echo $client_id $client_ip >> /etc/sccm/clients; ssh root@$client_ip -i ~/.ssh/GENERATED_HOST_ID"
+ssh root@GENERATED_HOST_IP -t -i ~/.ssh/$client_id "ssh root@$client_ip -t -i ~/.ssh/GENERATED_HOST_ID "exit""
+
+echo ""
+echo "---------------------------------------"
+echo "      KEY EXCHANGE COMPLETE            "
+echo "---------------------------------------"
+echo ""
+
+#Add client to list of monitored clients on host machine
+scp -i ~/.ssh/$client_id root@GENERATED_HOST_IP:/var/www/html/sccm/clients.json .
+sed -i "s/"comment"/$replacement_string/g" ./clients.json
+scp -i ~/.ssh/$client_id ./clients.json root@GENERATED_HOST_IP:/var/www/html/sccm/clients.json
