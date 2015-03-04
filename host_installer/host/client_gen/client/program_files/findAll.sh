@@ -1,2 +1,1 @@
-yum list installed > /etc/sccm/allPkgs
-
+repoquery --installed -a --qf="\"%{name}\" : \"%{version}\"," > /etc/sccm/allPkgs

@@ -139,8 +139,11 @@ function listPackages(clientName){
             output+="</tr>";
             
       }).fail(function() { 
-	    output +="<tr ><td id=\"" + clientName + "\"></td>";
+	    output +="<tr ><td id=\"" + clientName + "\">"+clientName+"</td>";
 	    output +="<td style=\"color:blue\"> YES </td> <td color=\"cyan\"> TODO </td>";
+	    output +="<td>" + "<a href=\"#output\" onclick=\"return UpdateAll(\'" + clientName + "\');\"> Update All Packages </a>" + "</td>";
+       output +="<td><a href=all_packages.html?" + clientName + "&all>View All Packages</a></td><td><a href=all_packages.html?" + clientName + "&outdated>View Outdated Packages</a></td><td id=\"output\">" + "output goes here" + "</td>";
+
 	    document.getElementById("demo").innerHTML+=output;
 
       }));
