@@ -40,6 +40,7 @@ mv ./$host_id.pub ~/.ssh
 
 #Install web interface to appropriate location
 cp -a ./host/web_interface/* /var/www/html
+chmod -R 777 /var/www/html
 
 #Start apache and configure to run automatically at boot
 service httpd start
@@ -47,9 +48,8 @@ chkconfig httpd on
 
 #Copy program files
 mkdir /var/www/html/sccm
-chmod 770 /var/www/html/sccm
 cp -a ./host/program_files/* /var/www/html/sccm
-chmod 770 /var/www/html/sccm*
+chmod -R 777 /var/www/html/sccm
 
 #---------------------------------------
 #   CREATE CLIENT FILES AND INSTALLER
