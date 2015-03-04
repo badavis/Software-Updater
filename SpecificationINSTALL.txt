@@ -1,0 +1,50 @@
+Specification: INSTALL
+
+The INSTALL should provide instructions on how to set up an environment for your project from scratch.  
+At a minumum, it should include:
+
+    1. A description of what OS(es) to use and which package(s) to install, how. 
+    For example, yum install <list of packages>
+	
+	OS:
+		CentOS 6.x minimal install
+	List of packages:
+		yum -y install nmap
+		yum -y install httpd
+		yum -y install perl
+		yum -y install openssh-clients
+		yum -y install openssh-server
+		yum -y install gcc 
+		yum -y install php-devel 
+		yum -y install php-pear 
+		yum -y install libssh2 
+		yum -y install libssh2-devel 
+		yum -y install make
+	
+
+    2. A description of any configuration file modifications that need to be made 
+    for the project to operate properly. 
+
+		None.
+
+    3. A list of any commands that need to be run in order to make the project work.  
+    For example, generating SSH keys for remote computer access.
+    
+		We need to generate ssh keys for the authentication between client and host machines 
+	in the update scripts:
+		ssh-keygen -q -f "$host_id" -N ""
+		mv ./$host_id ~/.ssh
+		mv ./$host_id.pub ~/.ssh
+
+
+    4. If there are any further steps (for example, either downloading or compiling 
+	code, or setting up a user to access the administrative webpage for the project), 
+	a description of those steps.
+	
+		
+	
+    5. A description of how the user who set up the project will know that it's 
+    working correctly.
+		
+		Upon refreshing the web dashboard on the server you should see your new 
+	client machine and be able to see packages that needs updating.
