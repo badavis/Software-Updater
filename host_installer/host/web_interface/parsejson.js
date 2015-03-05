@@ -87,58 +87,72 @@ function UpdatePackage(hostIP, pkgName){
 }
 
 
-function generateDropdown(data2, output2){
-	console.log("HERE I AM");
-	var rows = [];
-	var output = "<tr id=\"" + data2.hostname + "\"> <td>" + data2.hostname + "</td>" + "<td>Package Name </td> <td> Old Version </td> <td> New Version </td> </tr>";
-        var key, count = 0;
-				for(key in data2.Packages) {
-					if(data2.Packages.hasOwnProperty(key)) {
-						var old = data2.Packages[key][0];
-						var curr = data2.Packages[key][1];
+function generateDropdown(clientName){
+   
+   var deferreds = [];
+   var output = "";
+   var js_obj;
+   console.log("in generateDropdown");
+   
+   deferreds.push( $.getJSON('/sccm/'+clientName+'_current.log', function(data){
+      
+	         js_obj = data;
+   	      var rows = [];
+	         output = "<tr id=\"" + clientName + "\"> <td>" + clientName + "</td>" + "<td>Package Name </td> <td> Old Version </td> <td> New Version </td> </tr>";
+            var key, count = 0;
+				for(key in data.Packages) {
+					if(data.Packages.hasOwnProperty(key)) {
+						var old = data.Packages[key][0];
+						var curr = data.Packages[key][1];
 						output += "<tr><td></td> <td>" + key + "</td><td>" + old + "</td><td>" + curr + 
-						"</td> <td class = \"" + data2.hostname + key + "\"> <a onclick=\"return UpdatePackage(\'10.0.2.6\', \'" + key + "\');\"> Update Package </a> </td> </tr>";
-						console.log('adding click handler:' + data2.hostname + key);
-						$('.' + data2.hostname + key).click(function(){
-							alert("Click handler called");
-							UpdatePackage("10.0.2.6", key);
-						}); 
-						
+						"</td> <td class = \"" + clientName + key + "\"> <a onclick=\"return UpdatePackage(\'10.0.2.6\', \'" + key + "\');\"> Update Package </a> </td> </tr>";
+						console.log('adding click handler:' + clientName + key);
 					}
 
 				}
-				//output+="<td>" + "<a href=\"#output\" onclick=\"return UpdateAll("10.0.2.6");\"> Update All Packages </a>" + "</td>";
-				//output+="<td id=\"output\">" + "output goes here" + "</td>"
-				//getSyslog();
-				//getErrlog();
-				
-    
-            //output+="</tr>";
-	document.getElementById(data2.hostname).outerHTML = output;
-	$('#' + data2.hostname).click(function(){
-		alert("Click handler called");
-		revertDropdown(data2, output2);
-	    }); 
-	    //for(item in document.getElementById("demo").children){
-		//if(item.id == data2.hostname){
-		//	document.getElementById("demo").children[count] =     
+            
+            
+      }));
+	   $.when.apply($, deferreds).then(function(){
+	        var table = document.getElementById("demo");
+	        //need to figure out how to traverse the table, find the clicked 
+	        //row, replace it with new info and insert new rows beneath it, 
+	        //keeping any data above or below intact. 
+
+	         
+	         document.getElementById("demo").innerHTML+=output;
+   });
+   
+	//$('#' + data2.hostname).click(function(){
+	//	alert("Click handler called");
+	//	revertDropdown(data2, output2);
+	  //  }); 
 }
 
 function revertDropdown(data, output){
-	    document.getElementById("demo").innerHTML=output;
-	    $('#' + data.hostname).click(function(){
+	   document.getElementById("demo").innerHTML=output;
+	   $('#' + data.hostname).click(function(){
 		alert("Click handler called");
 		generateDropdown(data, output);
-	    });
+	   });
      
 }
 
-$( document ).ready(function() {
-    $.getJSON('/sccm/farm1_current.log', function(data) {
-	
-		var output = 	 "<tr> <td> List of Machines </td> <td>Up To Date </td> <td>Online State</td> <td> Update </td> <td> Result </td> </tr>"
-	
-	
+function createCH(clientName){
+   $('#demo').on('click', '#' + clientName, function(){
+		generateDropdown(clientName);
+	});
+}
+
+function listPackages(clientName){
+   var deferreds = [];
+   var output = "";
+   var js_obj;
+   var done = 0;
+   console.log("In listPackages");
+   deferreds.push( $.getJSON('/sccm/'+clientName+'_current.log', function(data){
+      
+	         js_obj = data;
             output +="<tr id=\"" + data.hostname + "\">";
             
             output+="<td>" + data.hostname + "</td>";
@@ -159,17 +173,44 @@ $( document ).ready(function() {
 				}
 				output+="<td>" + "BRUH" + "</td>";
 				output+="<td>" + "<a href=\"#output\" onclick=\"return UpdateAll();\"> Update All Packages </a>" + "</td>";
-				output+="<td id=\"output\">" + "output goes here" + "</td>"
+				output+="<td id=\"output\">" + "output goes here" + "</td>";
 				getSyslog();
 				getErrlog();
 				
     
             output+="</tr>";
-	    
-            document.getElementById("demo").innerHTML=output;
-	    $('#' + data.hostname).click(function(){
-		alert("Click handler called");
-		generateDropdown(data, output);
-	    });
-      });    
+            
+      }));
+	   $.when.apply($, deferreds).then(function(){
+	         console.log("listPackages done");
+	         document.getElementById("demo").innerHTML+=output;
+            return output;
+   });
+}
+
+
+$( document ).ready(function() {
+   var output = "<tr> <td> List of Machines </td> <td>Up To Date </td> <td>Online State</td> <td> Update </td> <td> Result </td> </tr>";
+   document.getElementById("demo").innerHTML=output;
+   var deferreds = [];
+   var clients = [];
+   var count = 0;
+   deferreds.push($.getJSON('/sccm/clients.json', function(data) {
+         $.each(data.clients, function(i, value){
+            clients[i] = value;
+         });
+      })
+   );
+   $.when.apply($, deferreds).then(function(){
+      for(var key in clients){
+         createCH(key);
+      }
+      console.log(clients["farm1"]);
+      console.log("done");
+      for(var key in clients){
+         console.log(key);
+         var html = [];
+         html.push(listPackages(key));
+      }
+   });
 });
