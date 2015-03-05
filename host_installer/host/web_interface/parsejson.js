@@ -71,10 +71,10 @@ function UpdatePackage(hostIP, pkgName){
       type: 'post',
       data: {host: hostIP, name: pkgName},
       complete: function (response) {
-          $('#SYSLOG').html(response.responseText);
+          $('#output').html(response.responseText);
       },
       error: function () {
-          $('#SYSLOG').html('Bummer: there was an error!');
+          $('#output').html('Bummer: there was an error!');
       }
 
   });
