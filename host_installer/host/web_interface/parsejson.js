@@ -172,8 +172,10 @@ function listPackages(clientName){
 					output+="<td>" + "NO" + "</td>";
 				}
 				output+="<td>" + "BRUH" + "</td>";
+
 				output+="<td>" + "<a href=\"#output\" onclick=\"return UpdateAll();\"> Update All Packages </a>" + "</td>";
 				output+="<td id=\"output\">" + "output goes here" + "</td>";
+
 				getSyslog();
 				getErrlog();
 				
