@@ -65,15 +65,16 @@ function rollbackPackage(hostIP, pkgName){
 }
 
 function UpdatePackage(hostIP, pkgName){
-   $.ajax({
+	console.log("UpdatePackage on " +hostIP+ " package name = " + pkgName);
+	$.ajax({
       url:'UpdatePackage.php',
       type: 'post',
       data: {host: hostIP, name: pkgName},
       complete: function (response) {
-          $('#output').html(response.responseText);
+          $('#SYSLOG').html(response.responseText);
       },
       error: function () {
-          $('#output').html('Bummer: there was an error!');
+          $('#SYSLOG').html('Bummer: there was an error!');
       }
 
   });
@@ -96,8 +97,12 @@ function generateDropdown(data2, output2){
 						var old = data2.Packages[key][0];
 						var curr = data2.Packages[key][1];
 						output += "<tr><td></td> <td>" + key + "</td><td>" + old + "</td><td>" + curr + 
-						"</td> <td id = \"" + key + "\"> Update Package </td> </tr>";
-						
+						"</td> <td class = \"" + data2.hostname + key + "\"> <a onclick=\"return UpdatePackage(\'10.0.2.6\', \'" + key + "\');\"> Update Package </a> </td> </tr>";
+						console.log('adding click handler:' + data2.hostname + key);
+						$('.' + data2.hostname + key).click(function(){
+							alert("Click handler called");
+							UpdatePackage("10.0.2.6", key);
+						}); 
 						
 					}
 
@@ -110,12 +115,6 @@ function generateDropdown(data2, output2){
     
             //output+="</tr>";
 	document.getElementById(data2.hostname).outerHTML = output;
-	for(key2 in data2.Pacakges){
-		$('#' + key2).click(function(){
-			alert("Click handler called");
-			UpdatePackage("10.0.2.6", key2);
-	   }); 
-	}
 	$('#' + data2.hostname).click(function(){
 		alert("Click handler called");
 		revertDropdown(data2, output2);
