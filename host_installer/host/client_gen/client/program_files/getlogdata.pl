@@ -1,7 +1,9 @@
 #!/usr/bin/perl 
 
-`./findOld.sh`;
-
+$info =`./findOld.sh`;
+open (OUT, ">", "availUpdates");
+print $OUT $info;
+close $OUT;
 open (INFILE, "<", "availUpdates");
 open (JSON,   ">", "updatelog.json");
 
