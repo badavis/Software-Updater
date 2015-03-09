@@ -1,8 +1,8 @@
 #!/usr/bin/perl 
 
-system("./findOld.sh");
-open (INFILE, "<", "availUpdates");
-open (JSON,   ">", "updatelog.json");
+system("/etc/sccm/findOld.sh");
+open (INFILE, "<", "/etc/sccm/availUpdates");
+open (JSON,   ">", "/etc/sccm/updatelog.json");
 
 $hostid = `hostname | tr -d '\n'`;
 $grabflag = 0;
@@ -45,7 +45,7 @@ close JSON;
 
 #clean up and finalize JSON (get rid of last comma and add braces)
 
-$filename = "updatelog.json";
+$filename = "/etc/sccm/updatelog.json";
 my $fsize = -s $filename;
 open($FILE, "+<", $filename) or die $!;
 seek $FILE, $fsize-2, SEEK_SET;
