@@ -1,12 +1,10 @@
 #!/usr/bin/perl 
 
-$info =`./findOld.sh`;
-open (OUT, ">", "availUpdates");
-print $OUT $info;
-close $OUT;
+system("./findOld.sh");
 open (INFILE, "<", "availUpdates");
 open (JSON,   ">", "updatelog.json");
 
+$hostid = `hostname | tr -d '\n'`;
 $grabflag = 0;
 $grabstop = "Installed Packages";
 $linecount = 0;
@@ -15,13 +13,12 @@ $linecount = 0;
 $prev_line;
 $installed_package;
 $date = `date | tr -d '\n'`;
-$hostname;
 
 while($line = <INFILE>){
 	chomp $line;
 	if($linecount == 0){
 		$hostname = $line;
-		print JSON "{\n \"hostname\": \"$line\",\n\"Date\":\"$date\",\n\"Packages\":{";
+		print JSON "{\n \"hostname\": \"$hostid\",\n\"Date\":\"$date\",\n\"Packages\":{";
 		$linecount++;
 	}
 
@@ -54,13 +51,13 @@ open($FILE, "+<", $filename) or die $!;
 seek $FILE, $fsize-2, SEEK_SET;
 print $FILE "}\n}\n\n";
 close $FILE; 
-
-$hostname_archive = "$hostname"."_archive.log";
-$hostname_current = "$hostname"."_current.log";
-$client_id = `hostname`;
-
-`cat $filename | ssh root\@GENERATED_HOST_ID -i ~/.ssh/$client_id "cat >> /var/www/html/sccm/$hostname_archive"`;
-`cat $filename | ssh root\@GENERATED_HOST_ID -i ~/.ssh/$client_id "cat > /var/www/html/sccm/$hostname_current"`;
-
+$hostname_archive = "$hostid"."_archive.log";
+$hostname_current = "$hostid"."_current.log";
+$client_id = `hostname | tr -d '\n'`;
+$command = "cat $filename | ssh root\@GENERATED_HOST_ID -T -i ~/.ssh/$client_id \"cat >> /var/www/html/sccm/$hostname_archive\"";
+`$command`;
+$command2 = "cat $filename | ssh root\@GENERATED_HOST_ID -T -i ~/.ssh/$client_id \"cat > /var/www/html/sccm/$hostname_current\"";
+`$command2`; 
+`rm -f availUpdates updatelog.json`;
 exit 0;
 	 
