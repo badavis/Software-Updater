@@ -6,7 +6,7 @@ echo "--------------------------------------------------------------------------
 echo "<font color="red">UPDATING ALL PACKAGES</font>" >> OUT
 echo "--------------------------------------------------------------------------" >> OUT
 
-yum update -y 1>OUT 2>ERR
+yum update -y 1>>OUT 2>>ERR
 
 echo "--------------------------------------------------------------------------" >> OUT
 echo "<font color="red">DONE UPDATING ALL PACKAGES</font>" >> OUT
