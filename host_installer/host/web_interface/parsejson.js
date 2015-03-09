@@ -117,7 +117,7 @@ function generateDropdown(clientName){
 
 	         
 	         document.getElementById("demo").innerHTML+=output;
-   });
+      });
    
 }
 
@@ -132,7 +132,7 @@ function revertDropdown(data, output){
 
 function createCH(clientName){
    $('#demo').on('click', '#' + clientName, function(){
-		generateDropdown(clientName);
+		//generateDropdown(clientName);
 	});
 }
 
@@ -147,7 +147,7 @@ function listPackages(clientName){
 	         js_obj = data;
             output +="<tr >";
             
-            output+="<td id=\"" + data.hostname + "\"><a href=" + data.hostname + "</a></td>";
+            output+="<td id=\"" + data.hostname + "\"><a href=all_packages.html?" + data.hostname + ">" + data.hostname + "</a></td>";
 
                 var key, count = 0;
 				for(key in data.Packages) {
