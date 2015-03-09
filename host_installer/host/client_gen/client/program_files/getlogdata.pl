@@ -55,9 +55,8 @@ $hostname_archive = "$hostid"."_archive.log";
 $hostname_current = "$hostid"."_current.log";
 $client_id = `hostname | tr -d '\n'`;
 $command = "cat $filename | ssh root\@GENERATED_HOST_ID -T -i ~/.ssh/$client_id \"cat >> /var/www/html/sccm/$hostname_archive\"";
-`$command`;
+system($command);
 $command2 = "cat $filename | ssh root\@GENERATED_HOST_ID -T -i ~/.ssh/$client_id \"cat > /var/www/html/sccm/$hostname_current\"";
-`$command2`; 
-`rm -f availUpdates updatelog.json`;
+system($command2); 
 exit 0;
 	 
