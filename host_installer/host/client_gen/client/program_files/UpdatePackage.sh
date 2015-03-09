@@ -1,5 +1,5 @@
 #!/bin/bash
-host="farmmaster"
+host="GENERATED_HOST_ID"
 client_id=`hostname`
 
 echo "--------------------------------------------------------------------------" >> OUT
