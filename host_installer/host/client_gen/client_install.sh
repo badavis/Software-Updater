@@ -52,7 +52,7 @@ echo "---------------------------------------"
 echo ""
 
 #Enhancement #4 - Allow hostname resolution client -> host
-echo GENERATED_HOST_IP   GENERATED_HOST_ID >> /etc/hosts
+echo 10.0.2.7   farmmaster >> /etc/hosts
 
 #Set up client -> host connection
 echo ""
@@ -60,10 +60,10 @@ echo "---------------------------------------"
 echo "      client -> host handshake         "
 echo "---------------------------------------"
 echo ""
-cat ~/.ssh/$client_id.pub | ssh root@GENERATED_HOST_ID "mkdir -p ~/.ssh && cat >> ~/.ssh/authorized_keys"
+cat ~/.ssh/$client_id.pub | ssh root@farmmaster "mkdir -p ~/.ssh && cat >> ~/.ssh/authorized_keys"
 
 #Enhancement #4 - Allow hostname resolution host -> client
-ssh root@GENERATED_HOST_ID -t -i ~/.ssh/$client_id "echo $client_ip   $client_id >> /etc/hosts"
+ssh root@farmmaster -t -i ~/.ssh/$client_id "echo $client_ip   $client_id >> /etc/hosts"
 
 #Set up host -> client connection and add client to list of monitored machines
 echo ""
@@ -72,7 +72,7 @@ echo "      host -> client handshake         "
 echo "---------------------------------------"
 echo ""
 cat ./client/keys/*.pub >> ~/.ssh/authorized_keys
-ssh root@GENERATED_HOST_ID -t -i ~/.ssh/$client_id "ssh root@$client_id -t -i ~/.ssh/GENERATED_HOST_ID "exit""
+ssh root@farmmaster -t -i ~/.ssh/$client_id "ssh root@$client_id -t -i ~/.ssh/farmmaster "exit""
 
 echo ""
 echo "---------------------------------------"
@@ -81,6 +81,6 @@ echo "---------------------------------------"
 echo ""
 
 #Add client to list of monitored clients on host machine
-scp -i ~/.ssh/$client_id root@GENERATED_HOST_ID:/var/www/html/sccm/clients.json .
+scp -i ~/.ssh/$client_id root@farmmaster:/var/www/html/sccm/clients.json .
 sed -i "s/"comment"/$replacement_string/g" ./clients.json
-scp -i ~/.ssh/$client_id ./clients.json root@GENERATED_HOST_ID:/var/www/html/sccm/clients.json
+scp -i ~/.ssh/$client_id ./clients.json root@farmmaster:/var/www/html/sccm/clients.json
