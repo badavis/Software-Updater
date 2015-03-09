@@ -60,4 +60,3 @@ $command2 = "cat $filename | ssh root\@GENERATED_HOST_ID -T -i ~/.ssh/$client_id
 `$command2`; 
 `rm -f availUpdates updatelog.json`;
 exit 0;
-	 
