@@ -82,8 +82,6 @@ function UpdatePackage(hostIP, pkgName){
   getErrlog();
   return false;
 
-
-
 }
 
 
@@ -98,7 +96,7 @@ function generateDropdown(clientName){
       
 	         js_obj = data;
    	      var rows = [];
-	         output = "<tr id=\"" + clientName + "\"> <td>" + clientName + "</td>" + "<td>Package Name </td> <td> Old Version </td> <td> New Version </td> </tr>";
+	         output = "<tr><td id=\"" + clientName + "\">" + clientName + "</td>" + "<td>Package Name </td> <td> Old Version </td> <td> New Version </td> </tr>";
             var key, count = 0;
 				for(key in data.Packages) {
 					if(data.Packages.hasOwnProperty(key)) {
@@ -115,18 +113,12 @@ function generateDropdown(clientName){
       }));
 	   $.when.apply($, deferreds).then(function(){
 	        var table = document.getElementById("demo");
-	        //need to figure out how to traverse the table, find the clicked 
-	        //row, replace it with new info and insert new rows beneath it, 
-	        //keeping any data above or below intact. 
+            
 
 	         
 	         document.getElementById("demo").innerHTML+=output;
    });
    
-	//$('#' + data2.hostname).click(function(){
-	//	alert("Click handler called");
-	//	revertDropdown(data2, output2);
-	  //  }); 
 }
 
 function revertDropdown(data, output){
@@ -153,9 +145,9 @@ function listPackages(clientName){
    deferreds.push( $.getJSON('/sccm/'+clientName+'_current.log', function(data){
       
 	         js_obj = data;
-            output +="<tr id=\"" + data.hostname + "\">";
+            output +="<tr >";
             
-            output+="<td>" + data.hostname + "</td>";
+            output+="<td id=\"" + data.hostname + "\"><a href=" + data.hostname + "</a></td>";
 
                 var key, count = 0;
 				for(key in data.Packages) {
@@ -210,6 +202,7 @@ $( document ).ready(function() {
       console.log(clients["farm1"]);
       console.log("done");
       for(var key in clients){
+         if(key == "comment"){continue;}
          console.log(key);
          var html = [];
          html.push(listPackages(key));
