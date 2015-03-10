@@ -111,7 +111,7 @@ function listPackages(clientName){
 	    console.log(data);
             output +="<tr >";
             
-            output+="<td id=\"" + data.hostname + "\"><a href=all_packages.html?" + data.hostname + ">" + data.hostname + "</a></td>";
+            output+="<td id=\"" + data.hostname + "\">"+ data.hostname + "</td>";
 
                 var key, count = 0;
 				for(key in data.Packages) {
