@@ -24,6 +24,44 @@ function getErrlog() {
   return false;
 }
 
+function rollbackPackage(hostIP, pkgName){
+   $.ajax({
+      url:'RollbackPackage.php',
+      type: 'post',
+      data: {host: hostIP, name: pkgName},
+      complete: function (response) {
+          $('#output').html(response.responseText);
+      },
+      error: function () {
+          $('#output').html('Bummer: there was an error!');
+      }
+
+  });
+  getSyslog();
+  getErrlog();
+  return false;
+}
+
+function UpdatePackage(hostIP, pkgName){
+	console.log("UpdatePackage on " +hostIP+ " package name = " + pkgName);
+	$.ajax({
+      url:'UpdatePackage.php',
+      type: 'post',
+      data: {host: hostIP, name: pkgName},
+      complete: function (response) {
+          $('#output').html(response.responseText);
+      },
+      error: function () {
+          $('#output').html('Bummer: there was an error!');
+      }
+
+  });
+  getSyslog();
+  getErrlog();
+  return false;
+
+}
+
 $( document ).ready( function(){
     var client = window.location.search.substring(1);   //gets url parameter (the client name)
     document.getElementById("title").innerHTML += " Installed On " + client;
@@ -50,5 +88,7 @@ $( document ).ready( function(){
     );            
     $.when.apply($, deferreds).then(function(){
          document.getElementById("demo").innerHTML=output;
+		 getSyslog();
+         getErrlog();
     });
 });

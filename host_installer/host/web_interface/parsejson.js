@@ -46,44 +46,6 @@ function UpdateAll(hostIP) {
   return false;
 }
 
-function rollbackPackage(hostIP, pkgName){
-   $.ajax({
-      url:'RollbackPackage.php',
-      type: 'post',
-      data: {host: hostIP, name: pkgName},
-      complete: function (response) {
-          $('#output').html(response.responseText);
-      },
-      error: function () {
-          $('#output').html('Bummer: there was an error!');
-      }
-
-  });
-  getSyslog();
-  getErrlog();
-  return false;
-}
-
-function UpdatePackage(hostIP, pkgName){
-	console.log("UpdatePackage on " +hostIP+ " package name = " + pkgName);
-	$.ajax({
-      url:'UpdatePackage.php',
-      type: 'post',
-      data: {host: hostIP, name: pkgName},
-      complete: function (response) {
-          $('#output').html(response.responseText);
-      },
-      error: function () {
-          $('#output').html('Bummer: there was an error!');
-      }
-
-  });
-  getSyslog();
-  getErrlog();
-  return false;
-
-}
-
 
 function generateDropdown(clientName){
    
@@ -143,8 +105,10 @@ function listPackages(clientName){
    var done = 0;
    console.log("In listPackages");
    deferreds.push( $.getJSON('/sccm/'+clientName+'_current.log', function(data){
-      
-	         js_obj = data;
+            
+	    js_obj = data;
+	    console.log("Something");
+	    console.log(data);
             output +="<tr >";
             
             output+="<td id=\"" + data.hostname + "\"><a href=all_packages.html?" + data.hostname + ">" + data.hostname + "</a></td>";
@@ -157,11 +121,11 @@ function listPackages(clientName){
 
 				}
 				if(!count){
-					output+="<td>" + "YES" + "</td>";
+					output+="<td style=\"color:blue\">" + "YES" + "</td>";
 					
 				}
 				else{
-					output+="<td>" + "NO" + "</td>";
+					output+="<td style=\"color:red\">" + "NO" + "</td>";
 				}
 				output+="<td>" + "BRUH" + "</td>";
 
@@ -174,12 +138,19 @@ function listPackages(clientName){
     
             output+="</tr>";
             
+      }).fail(function() { 
+	    output +="<tr ><td id=\"" + clientName + "\"><a href=all_packages.html?" + clientName + ">" + clientName + "</a></td>";
+	    output +="<td style=\"color:blue\"> YES </td> <td color=\"cyan\"> TODO </td>";
+	    document.getElementById("demo").innerHTML+=output;
+
       }));
 	   $.when.apply($, deferreds).then(function(){
+
 	         console.log("listPackages done");
 	         document.getElementById("demo").innerHTML+=output;
             return output;
    });
+	
 }
 
 
@@ -201,6 +172,8 @@ $( document ).ready(function() {
       }
       console.log(clients["farm1"]);
       console.log("done");
+      getSyslog();
+      getErrlog();
       for(var key in clients){
          if(key == "comment"){continue;}
          console.log(key);
