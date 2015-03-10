@@ -1,2 +1,1 @@
-yum list installed > /etc/sccm/allPkgs
-
+yum list installed | grep -v "@updates" > /etc/sccm/allPkgs
