@@ -26,7 +26,7 @@ function getErrlog() {
 
 function uninstallPackage(hostIP, pkgName){
    $.ajax({
-      url:'UninstallPackage.php',
+      url:'uninstall.php',
       type: 'post',
       data: {host: hostIP, name: pkgName},
       complete: function (response) {
@@ -120,7 +120,7 @@ $( document ).ready( function(){
     			if(data.Packages.hasOwnProperty(key)) {
     				var curr = data.Packages[key];
     				output += "<tr><td></td> <td>" + key + "</td><td>" + curr + 
-    				"</td> <td class = \"" + client + key + "\"> <a onclick=\"return rollbackPackage(\'" + data.hostname + "\', \'" + key + "\');\"> Downgrade </a> </td><td class = \"" + client + key + "\"> <a onclick=\"return UninstallPackage(\'" + data.hostname + "\', \'" + key + "\');\"> Uninstall </a> </td></tr>";
+    				"</td> <td class = \"" + client + key + "\"> <a onclick=\"return rollbackPackage(\'" + data.hostname + "\', \'" + key + "\');\"> Downgrade </a> </td><td class = \"" + client + key + "\"> <a onclick=\"return uninstallPackage(\'" + data.hostname + "\', \'" + key + "\');\"> Uninstall </a> </td></tr>";
     				console.log('adding click handler:' + client + key);
     			}
     
