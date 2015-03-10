@@ -63,12 +63,18 @@ function UpdatePackage(hostIP, pkgName){
 }
 
 $( document ).ready( function(){
-    var client = window.location.search.substring(1);   //gets url parameter (the client name)
-    document.getElementById("title").innerHTML += " Installed On " + client;
+    var query = window.location.search.substring(1);   //gets url parameter (the client name)
+    var items = query.split("&");
+    var client = items[0];
+    var pageType = items[1];
     
+    if(pageType == "all"){
+        document.getElementById("title").innerHTML = "All Packages Installed On " + client;
+    }
+    if(pageType == "outdated"){
+        document.getElementById("title").innerHTML = "Outdated Packages Installed On " + client;
+    }
     var deferreds = [];
-    //var output = "";//"<tr> <td> Machine </td> <td>Packages</td> <td>Up To Date?</td></tr>";
-    //document.getElementById("demo").innerHTML = output;
     var output = "<tr> <td> List of Machines </td> <td>Up To Date </td> <td>Online State</td> <td> Update </td> <td> Result </td> </tr>";
     deferreds.push($.getJSON('/sccm/'+client+'_current.log', function(data){
    	    var rows = [];

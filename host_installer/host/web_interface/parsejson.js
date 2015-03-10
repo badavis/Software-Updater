@@ -130,7 +130,7 @@ function listPackages(clientName){
 				output+="<td>" + "BRUH" + "</td>";
 
 				output+="<td>" + "<a href=\"#output\" onclick=\"return UpdateAll(\'" + data.hostname + "\');\"> Update All Packages </a>" + "</td>";
-				output+="<td id=\"output\">" + "output goes here" + "</td>";
+				output+="<td><a href=all_packages.html?" + clientName + "&all>View All Packages</a></td><td><a href=all_packages.html?" + clientName + "&outdated>View Outdated Packages</a></td><td id=\"output\">" + "output goes here" + "</td>";
 
 				getSyslog();
 				getErrlog();
@@ -139,7 +139,7 @@ function listPackages(clientName){
             output+="</tr>";
             
       }).fail(function() { 
-	    output +="<tr ><td id=\"" + clientName + "\"><a href=all_packages.html?" + clientName + ">" + clientName + "</a></td>";
+	    output +="<tr ><td id=\"" + clientName + "\"></td>";
 	    output +="<td style=\"color:blue\"> YES </td> <td color=\"cyan\"> TODO </td>";
 	    document.getElementById("demo").innerHTML+=output;
 
@@ -155,7 +155,7 @@ function listPackages(clientName){
 
 
 $( document ).ready(function() {
-   var output = "<tr> <td> List of Machines </td> <td>Up To Date </td> <td>Online State</td> <td> Update </td> <td> Result </td> </tr>";
+   var output = "<tr> <td> List of Machines </td> <td>Up To Date </td> <td>Online State</td> <td> Update </td><td>All Packages</td> <td>Out of Date Packages</td> <td> Result </td> </tr>";
    document.getElementById("demo").innerHTML=output;
    var deferreds = [];
    var clients = [];
