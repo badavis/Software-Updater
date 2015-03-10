@@ -32,12 +32,6 @@ mkdir /etc/sccm
 cp -a ./client/program_files/* /etc/sccm
 chmod -R 777 /etc/sccm
 
-#Add Get Logdata to cron
-crontab -l > mycron || true
-echo "* * * * * /etc/sccm/getlogdata.pl" >> mycron
-crontab mycron
-rm mycron
-
 #---------------------------------------
 #   SSH HANDSHAKE
 #---------------------------------------
@@ -84,3 +78,9 @@ echo ""
 scp -i ~/.ssh/$client_id root@GENERATED_HOST_ID:/var/www/html/sccm/clients.json .
 sed -i "s/"comment"/$replacement_string/g" ./clients.json
 scp -i ~/.ssh/$client_id ./clients.json root@GENERATED_HOST_ID:/var/www/html/sccm/clients.json
+
+#Add Get Logdata to cron on local machine
+crontab -l > mycron || true
+echo "* * * * * /etc/sccm/getlogdata.pl" >> mycron
+crontab mycron
+rm mycron
