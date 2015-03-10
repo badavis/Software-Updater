@@ -83,16 +83,29 @@ $( document ).ready( function(){
    	    var rows = [];
         output = "<tr><td id=\"" + client + "\">" + client + "</td>" + "<td>Package Name </td> <td> Old Version </td> <td> New Version </td> </tr>";
         var key, count = 0;
-		for(key in data.Packages) {
-			if(data.Packages.hasOwnProperty(key)) {
-				var old = data.Packages[key][0];
-				var curr = data.Packages[key][1];
-				output += "<tr><td></td> <td>" + key + "</td><td>" + old + "</td><td>" + curr + 
-				"</td> <td class = \"" + client + key + "\"> <a onclick=\"return UpdatePackage(\'" + data.hostname + "\', \'" + key + "\');\"> Update Package </a> </td> </tr>";
-				console.log('adding click handler:' + client + key);
-			}
-
-		}
+        if(pageType == "outdated"){
+    		for(key in data.Packages) {
+    			if(data.Packages.hasOwnProperty(key)) {
+    				var old = data.Packages[key][0];
+    				var curr = data.Packages[key][1];
+    				output += "<tr><td></td> <td>" + key + "</td><td>" + old + "</td><td>" + curr + 
+    				"</td> <td class = \"" + client + key + "\"> <a onclick=\"return UpdatePackage(\'" + data.hostname + "\', \'" + key + "\');\"> Update Package </a> </td> </tr>";
+    				console.log('adding click handler:' + client + key);
+    			}
+    
+    		}
+        }
+        if(pageType == "all"){
+            for(key in data.Packages) {
+    			if(data.Packages.hasOwnProperty(key)) {
+    				var curr = data.Packages[key];
+    				output += "<tr><td></td> <td>" + key + "</td><td></td><td>" + curr + 
+    				"</td> <td class = \"" + client + key + "\"> <a onclick=\"return UpdatePackage(\'" + data.hostname + "\', \'" + key + "\');\"> Update Package </a> </td> </tr>";
+    				console.log('adding click handler:' + client + key);
+    			}
+    
+    		}
+        }
     })
     );            
     $.when.apply($, deferreds).then(function(){
