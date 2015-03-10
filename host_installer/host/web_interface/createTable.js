@@ -24,6 +24,24 @@ function getErrlog() {
   return false;
 }
 
+function uninstallPackage(hostIP, pkgName){
+   $.ajax({
+      url:'UninstallPackage.php',
+      type: 'post',
+      data: {host: hostIP, name: pkgName},
+      complete: function (response) {
+          $('#output').html(response.responseText);
+      },
+      error: function () {
+          $('#output').html('Bummer: there was an error!');
+      }
+
+  });
+  getSyslog();
+  getErrlog();
+  return false;
+}
+
 function rollbackPackage(hostIP, pkgName){
    $.ajax({
       url:'RollbackPackage.php',
@@ -81,9 +99,10 @@ $( document ).ready( function(){
     var output = "<tr> <td> List of Machines </td> <td>Up To Date </td> <td>Online State</td> <td> Update </td> <td> Result </td> </tr>";
     deferreds.push($.getJSON('/sccm/'+client+json_file, function(data){
    	    var rows = [];
-        output = "<tr><td id=\"" + client + "\">" + client + "</td>" + "<td>Package Name </td> <td> Old Version </td> <td> New Version </td> </tr>";
+        
         var key, count = 0;
         if(pageType == "outdated"){
+            output = "<tr><td id=\"" + client + "\">" + client + "</td>" + "<td>Package Name </td> <td> Old Version </td> <td> New Version </td> </tr>";
     		for(key in data.Packages) {
     			if(data.Packages.hasOwnProperty(key)) {
     				var old = data.Packages[key][0];
@@ -96,11 +115,12 @@ $( document ).ready( function(){
     		}
         }
         if(pageType == "all"){
+            output = "<tr><td id=\"" + client + "\">" + client + "</td>" + "<td>Package Name </td> <td> Version </td> <td>Downgrade</td> <td>Uninstall</td> </tr>";
             for(key in data.Packages) {
     			if(data.Packages.hasOwnProperty(key)) {
     				var curr = data.Packages[key];
-    				output += "<tr><td></td> <td>" + key + "</td><td></td><td>" + curr + 
-    				"</td> <td class = \"" + client + key + "\"> <a onclick=\"return UpdatePackage(\'" + data.hostname + "\', \'" + key + "\');\"> Update Package </a> </td> </tr>";
+    				output += "<tr><td></td> <td>" + key + "</td><td>" + curr + 
+    				"</td> <td class = \"" + client + key + "\"> <a onclick=\"return rollbackPackage(\'" + data.hostname + "\', \'" + key + "\');\"> Downgrade </a> </td><td class = \"" + client + key + "\"> <a onclick=\"return UninstallPackage(\'" + data.hostname + "\', \'" + key + "\');\"> Uninstall </a> </td></tr>";
     				console.log('adding click handler:' + client + key);
     			}
     
