@@ -82,5 +82,15 @@ scp -i ~/.ssh/$client_id ./clients.json root@GENERATED_HOST_ID:/var/www/html/scc
 #Add Get Logdata to cron on local machine
 crontab -l > mycron || true
 echo "* * * * * /etc/sccm/getlogdata.pl" >> mycron
+echo "* * * * * /etc/sccm/getpkgdata.pl" >> mycron
 crontab mycron
 rm mycron
+
+#Summary of changes
+echo -e "Installed Dependencies....                       "[ '\e[00;32m'OK'\e[00m' ]
+echo -e "Generated SSH Keys....                           "[ '\e[00;32m'OK'\e[00m' ]
+echo -e "Copied Program Files....                         "[ '\e[00;32m'OK'\e[00m' ]
+echo -e "Established Client to Host Handshake....         "[ '\e[00;32m'OK'\e[00m' ]
+echo -e "Established Host to Client Handshake....         "[ '\e[00;32m'OK'\e[00m' ]
+echo -e "Added to monitored machines....                  "[ '\e[00;32m'OK'\e[00m' ]
+echo -e "Created cron job to update monitoring logs....   "[ '\e[00;32m'OK'\e[00m' ]

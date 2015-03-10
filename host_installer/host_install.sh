@@ -70,3 +70,10 @@ cp ~/.ssh/$host_id.pub ./host/client_gen/client/keys
 #Create and populate client installer directory
 mkdir ./client_installer
 cp -a ./host/client_gen/* ./client_installer
+
+#Summary of changes
+echo -e "Installed Dependencies....     "[ '\e[00;32m'OK'\e[00m' ]
+echo -e "Generated SSH Keys....         "[ '\e[00;32m'OK'\e[00m' ]
+echo -e "Copied Program Files....       "[ '\e[00;32m'OK'\e[00m' ]
+echo -e "Configured Web Server....      "[ '\e[00;32m'OK'\e[00m' ]
+echo -e "Created client installer....   "[ '\e[00;32m'OK'\e[00m' ]
