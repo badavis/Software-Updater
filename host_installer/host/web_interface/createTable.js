@@ -30,10 +30,10 @@ function uninstallPackage(hostIP, pkgName){
       type: 'post',
       data: {host: hostIP, name: pkgName},
       complete: function (response) {
-          $('#output').html(response.responseText);
+          console.log("uninstallPackage" + hostIP + " " + pkgName + ": " + response.responseText);
       },
       error: function () {
-          $('#output').html('Bummer: there was an error!');
+           console.log("uninstallPackage" + hostIP + " " + pkgName + ": " + response.responseText);
       }
 
   });
@@ -48,10 +48,10 @@ function rollbackPackage(hostIP, pkgName){
       type: 'post',
       data: {host: hostIP, name: pkgName},
       complete: function (response) {
-          $('#output').html(response.responseText);
+          console.log("rollbackPackage" + hostIP + " " + pkgName + ": " + response.responseText);
       },
       error: function () {
-          $('#output').html('Bummer: there was an error!');
+          console.log("rollbackPackage" + hostIP + " " + pkgName + ": " + response.responseText);
       }
 
   });
@@ -67,10 +67,10 @@ function UpdatePackage(hostIP, pkgName){
       type: 'post',
       data: {host: hostIP, name: pkgName},
       complete: function (response) {
-          $('#output').html(response.responseText);
+          console.log("updatePackage" + hostIP + " " + pkgName + ": " + response.responseText);
       },
       error: function () {
-          $('#output').html('Bummer: there was an error!');
+          console.log("updatePackage" + hostIP + " " + pkgName + ": " + response.responseText);
       }
 
   });

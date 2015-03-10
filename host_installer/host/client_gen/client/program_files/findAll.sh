@@ -1,1 +1,1 @@
-yum list installed | grep -v "@updates" > /etc/sccm/allPkgs
+repoquery --installed -a --qf="\"%{name}\" : \"%{version}\"," > allPkgs

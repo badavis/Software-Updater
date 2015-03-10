@@ -16,15 +16,7 @@ $date = `date | tr -d '\n'`;
 
 print JSON "{\n \"hostname\": \"$hostid\",\n\"Date\":\"$date\",\n\"Packages\":{";
 while($line = <INFILE>){
-	if($linecount < 1){
-		chomp $line;
-	}
-	else{
-		if($line =~ /([^ \t]+)[ \t]+([^ \t]+)[ \t]+([^ \t]+)/){
-			print JSON "\"$1\": \"$2\",";
-		}
-	}
-	$linecount += 1;
+		print JSON $line
 }
 
 
@@ -36,7 +28,7 @@ close JSON;
 $filename = "/etc/sccm/updatelog_all.json";
 my $fsize = -s $filename;
 open($FILE, "+<", $filename) or die $!;
-seek $FILE, $fsize-1, SEEK_SET;
+seek $FILE, $fsize-2, SEEK_SET;
 print $FILE "}\n}\n\n";
 close $FILE; 
 $hostname_archive = "$hostid"."_archive_all.log";
