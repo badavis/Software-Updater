@@ -71,9 +71,13 @@ cp ~/.ssh/$host_id.pub ./host/client_gen/client/keys
 mkdir ./client_installer
 cp -a ./host/client_gen/* ./client_installer
 
-#Summary of changes
-echo -e "Installed Dependencies....     "[ '\e[00;32m'OK'\e[00m' ]
-echo -e "Generated SSH Keys....         "[ '\e[00;32m'OK'\e[00m' ]
-echo -e "Copied Program Files....       "[ '\e[00;32m'OK'\e[00m' ]
-echo -e "Configured Web Server....      "[ '\e[00;32m'OK'\e[00m' ]
-echo -e "Created client installer....   "[ '\e[00;32m'OK'\e[00m' ]
+#Summary of changes (Only outputs if no errors)
+echo ""
+echo ""
+echo -e "Installing Dependencies:                                   [  "'\e[00;32m'OK'\e[00m'"  ]"
+echo -e "Generating SSH Keys:                                       [  "'\e[00;32m'OK'\e[00m'"  ]"
+echo -e "Copying Program Files:                                     [  "'\e[00;32m'OK'\e[00m'"  ]"
+echo -e "Configuring Web Server:                                    [  "'\e[00;32m'OK'\e[00m'"  ]"
+echo -e "Creating client installer:                                 [  "'\e[00;32m'OK'\e[00m'"  ]"
+echo ""
+echo ""

@@ -86,11 +86,15 @@ echo "* * * * * /etc/sccm/getpkgdata.pl" >> mycron
 crontab mycron
 rm mycron
 
-#Summary of changes
-echo -e "Installed Dependencies....                       "[ '\e[00;32m'OK'\e[00m' ]
-echo -e "Generated SSH Keys....                           "[ '\e[00;32m'OK'\e[00m' ]
-echo -e "Copied Program Files....                         "[ '\e[00;32m'OK'\e[00m' ]
-echo -e "Established Client to Host Handshake....         "[ '\e[00;32m'OK'\e[00m' ]
-echo -e "Established Host to Client Handshake....         "[ '\e[00;32m'OK'\e[00m' ]
-echo -e "Added to monitored machines....                  "[ '\e[00;32m'OK'\e[00m' ]
-echo -e "Created cron job to update monitoring logs....   "[ '\e[00;32m'OK'\e[00m' ]
+#Summary of changes (Only outputs if no errors)
+echo ""
+echo ""
+echo -e "Installing Dependencies:                                   [  "'\e[00;32m'OK'\e[00m'"  ]"
+echo -e "Generating SSH Keys:                                       [  "'\e[00;32m'OK'\e[00m'"  ]"
+echo -e "Copying Program Files:                                     [  "'\e[00;32m'OK'\e[00m'"  ]"
+echo -e "Establishing Client to Host Handshake:                     [  "'\e[00;32m'OK'\e[00m'"  ]"
+echo -e "Establishing Host to Client Handshake:                     [  "'\e[00;32m'OK'\e[00m'"  ]"
+echo -e "Adding to monitored machines:                              [  "'\e[00;32m'OK'\e[00m'"  ]"
+echo -e "Creating cron job to update monitoring logs:               [  "'\e[00;32m'OK'\e[00m'"  ]"
+echo ""
+echo ""
