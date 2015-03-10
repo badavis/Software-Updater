@@ -1,1 +1,1 @@
-repoquery --installed -a --qf="\"%{name}\" : \"%{version}\"," > allPkgs
+repoquery --installed -a --qf="\"%{name}\" : \"%{version}\"," > /etc/sccm/allPkgs
