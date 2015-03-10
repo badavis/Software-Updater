@@ -139,7 +139,7 @@ function listPackages(clientName){
             output+="</tr>";
             
       }).fail(function() { 
-	    output +="<tr ><td id=\"" + clientName + "\"></td>";
+	    output +="<tr ><td id=\"" + clientName + "\">"+clientName+"</td>";
 	    output +="<td style=\"color:blue\"> YES </td> <td color=\"cyan\"> TODO </td>";
 	    document.getElementById("demo").innerHTML+=output;
 

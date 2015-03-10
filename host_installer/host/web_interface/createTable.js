@@ -67,16 +67,19 @@ $( document ).ready( function(){
     var items = query.split("&");
     var client = items[0];
     var pageType = items[1];
+    var json_file;
     
     if(pageType == "all"){
         document.getElementById("title").innerHTML = "All Packages Installed On " + client;
+        json_file = "_current_all.log";
     }
     if(pageType == "outdated"){
         document.getElementById("title").innerHTML = "Outdated Packages Installed On " + client;
+        json_file = "_current.log";
     }
     var deferreds = [];
     var output = "<tr> <td> List of Machines </td> <td>Up To Date </td> <td>Online State</td> <td> Update </td> <td> Result </td> </tr>";
-    deferreds.push($.getJSON('/sccm/'+client+'_current.log', function(data){
+    deferreds.push($.getJSON('/sccm/'+client+json_file, function(data){
    	    var rows = [];
         output = "<tr><td id=\"" + client + "\">" + client + "</td>" + "<td>Package Name </td> <td> Old Version </td> <td> New Version </td> </tr>";
         var key, count = 0;
