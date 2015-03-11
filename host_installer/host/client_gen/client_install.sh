@@ -87,6 +87,7 @@ crontab mycron
 rm mycron
 
 #Do first run of scripts so we have some data
+echo "Generating Initial Data. Please Wait...."
 /etc/sccm/getlogdata.pl
 /etc/sccm/getpkgdata.pl
 

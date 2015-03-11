@@ -155,7 +155,12 @@ $( document ).ready( function(){
     		}
         }
     })
-    );            
+    .fail(function(){
+          $("#blocker").hide();
+          output = "<tr><td id=\"" + client + "\">" + client + "</td>" + "<td>Package Name </td> <td> Version </td> <td>Downgrade</td> <td>Uninstall</td> </tr>";
+          document.getElementById("demo").innerHTML=output;
+    }));
+            
     $.when.apply($, deferreds).then(function(){
          document.getElementById("demo").innerHTML=output;
 	 getSyslog();
