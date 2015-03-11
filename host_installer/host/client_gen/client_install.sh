@@ -20,7 +20,7 @@ chmod 700 ~/.ssh
 #Set Variables
 client_ip=`ifconfig | grep -Eo 'inet (addr:)?([0-9]*\.){3}[0-9]*' | grep -Eo '([0-9]*\.){3}[0-9]*' | grep -v '127.0.0.1'`
 client_id=`hostname`
-replacement_string="$client_id\": [\n\t\t\"$client_ip\"\n\t],\n\t\"comment"
+replacement_string="$client_id\": [\n\t\t\"$client_id\"\n\t],\n\t\"comment"
 
 #Generate SSH keys to appropriate location
 ssh-keygen -q -f "$client_id" -N ""
@@ -30,7 +30,7 @@ mv ./$client_id.pub ~/.ssh
 #Copy program files
 mkdir /etc/sccm
 cp -a ./client/program_files/* /etc/sccm
-chmod -R 777 /etc/sccm
+chmod -R 755 /etc/sccm
 
 #---------------------------------------
 #   SSH HANDSHAKE
@@ -86,6 +86,10 @@ echo "* * * * * /etc/sccm/getpkgdata.pl" >> mycron
 crontab mycron
 rm mycron
 
+#Do first run of scripts so we have some data
+/etc/sccm/getlogdata.pl
+/etc/sccm/getpkgdata.pl
+
 #Summary of changes (Only outputs if no errors)
 echo ""
 echo ""
@@ -96,5 +100,6 @@ echo -e "Establishing Client to Host Handshake:                     [  "'\e[00;3
 echo -e "Establishing Host to Client Handshake:                     [  "'\e[00;32m'OK'\e[00m'"  ]"
 echo -e "Adding to monitored machines:                              [  "'\e[00;32m'OK'\e[00m'"  ]"
 echo -e "Creating cron job to update monitoring logs:               [  "'\e[00;32m'OK'\e[00m'"  ]"
+echo -e "Generating Initial Logs:                                   [  "'\e[00;32m'OK'\e[00m'"  ]"
 echo ""
 echo ""
