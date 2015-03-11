@@ -34,11 +34,11 @@ function UpdateAll(hostIP) {
       type: 'post',
       data: {host: hosty},
       complete: function (response) {
-          $('#output').html(response.responseText);
+          //$('#output').html(response.responseText);
           $("#blocker").hide();
       },
       error: function () {
-          $('#output').html('Bummer: there was an error!');
+          //$('#output').html('Bummer: there was an error!');
 	  $("#blocker").hide();
       }
 
@@ -140,7 +140,7 @@ function listPackages(clientName){
 				output+="<td>" + "BRUH" + "</td>";
 
 				output+="<td>" + "<a href=\"#output\" onclick=\"return UpdateAll(\'" + data.hostname + "\');\"> Update All Packages </a>" + "</td>";
-				output+="<td><a href=all_packages.html?" + clientName + "&all>View All Packages</a></td><td><a href=all_packages.html?" + clientName + "&outdated>View Outdated Packages</a></td><td id=\"output\">" + "output goes here" + "</td>";
+				output+="<td><a href=all_packages.html?" + clientName + "&all>View All Packages</a></td><td><a href=all_packages.html?" + clientName + "&outdated>View Outdated Packages</a></td><td id=\"output\"></td>";
 
 				getSyslog();
 				getErrlog();
@@ -169,7 +169,7 @@ function listPackages(clientName){
 
 
 $( document ).ready(function() {
-   var output = "<tr> <td> List of Machines </td> <td>Up To Date </td> <td>Online State</td> <td> Update </td><td>All Packages</td> <td>Out of Date Packages</td> <td> Result </td> </tr>";
+   var output = "<tr> <td> List of Machines </td> <td>Up To Date </td> <td>Online State</td> <td> Update </td><td>All Packages</td> <td>Out of Date Packages</td> <td>  </td> </tr>";
    document.getElementById("demo").innerHTML=output;
    var deferreds = [];
    var clients = [];
@@ -181,6 +181,9 @@ $( document ).ready(function() {
       })
    );
    $.when.apply($, deferreds).then(function(){
+      $("#blocker").hide();
+      var output = "<tr> <td> List of Machines </td> <td>Up To Date </td> <td>Online State</td> <td> Update </td><td>All Packages</td> <td>Out of Date Packages</td> <td> <a id=\"updateallmachines\"><span style =\"cursor:pointer\">Update All Machines</span></a> </td> </tr>";
+      document.getElementById("demo").innerHTML=output;
       $("#blocker").hide();
       for(var key in clients){
          createCH(key);
