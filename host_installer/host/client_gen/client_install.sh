@@ -45,8 +45,8 @@ echo "permanent storage of RSA ID's."
 echo "---------------------------------------"
 echo ""
 
-#Enhancement #4 - Allow hostname resolution client -> host
-echo GENERATED_HOST_IP   GENERATED_HOST_ID >> /etc/hosts
+#Enhancement #4 - Allow hostname resolution client -> host (Only needed if no DNS)
+#echo GENERATED_HOST_IP   GENERATED_HOST_ID >> /etc/hosts
 
 #Set up client -> host connection
 echo ""
@@ -56,8 +56,8 @@ echo "---------------------------------------"
 echo ""
 cat ~/.ssh/$client_id.pub | ssh root@GENERATED_HOST_ID "mkdir -p ~/.ssh && cat >> ~/.ssh/authorized_keys"
 
-#Enhancement #4 - Allow hostname resolution host -> client
-ssh root@GENERATED_HOST_ID -t -i ~/.ssh/$client_id "echo $client_ip   $client_id >> /etc/hosts"
+#Enhancement #4 - Allow hostname resolution host -> client (Only needed if no DNS)
+#ssh root@GENERATED_HOST_ID -t -i ~/.ssh/$client_id "echo $client_ip   $client_id >> /etc/hosts"
 
 #Set up host -> client connection and add client to list of monitored machines
 echo ""
