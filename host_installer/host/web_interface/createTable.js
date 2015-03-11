@@ -1,3 +1,20 @@
+function refreshMachineInfo(hostID) {
+   console.log("refreshMachineInfo: refreshing syslog " + hostID); 
+   getSyslog();
+   console.log("refreshMachineInfo: refreshing errlog " + hostID); 
+   getErrlog();
+   console.log("refreshMachineInfo: refreshing page " + hostID); 
+   $(document).ready();
+   $.ajax({
+    url: "",
+    context: document.body,
+    success: function(s,x){
+        $(this).html(s);
+    }
+});
+  return false;
+}
+
 function getSyslog() {
    $.ajax({
       url:'syslog.php',
@@ -26,19 +43,24 @@ function getErrlog() {
 
 function uninstallPackage(hostIP, pkgName){
    $.ajax({
+      async: false,
       url:'uninstall.php',
       type: 'post',
       data: {host: hostIP, name: pkgName},
       complete: function (response) {
-          console.log("uninstallPackage" + hostIP + " " + pkgName + ": " + response.responseText);
+          console.log("uninstallPackage " + hostIP + " " + pkgName + ": " + response.responseText);
       },
       error: function () {
-           console.log("uninstallPackage" + hostIP + " " + pkgName + ": " + response.responseText);
+           console.log("uninstallPackage " + hostIP + " " + pkgName + ": " + response.responseText);
       }
 
-  });
-  getSyslog();
-  getErrlog();
+  }).done(function(data){
+	console.log("uninstallPackage" + hostIP + " " + pkgName + ": " + "running refreshMachineInfo");
+  	refreshMachineInfo(hostIP);
+	
+});
+
+ 
   return false;
 }
 
@@ -54,9 +76,10 @@ function rollbackPackage(hostIP, pkgName){
           console.log("rollbackPackage" + hostIP + " " + pkgName + ": " + response.responseText);
       }
 
-  });
-  getSyslog();
-  getErrlog();
+  }).done(function(data){
+	console.log("rollbackPackage" + hostIP + " " + pkgName + ": " + "running refreshMachineInfo");
+  	refreshMachineInfo(hostIP);
+});
   return false;
 }
 
@@ -73,13 +96,13 @@ function UpdatePackage(hostIP, pkgName){
           console.log("updatePackage" + hostIP + " " + pkgName + ": " + response.responseText);
       }
 
-  });
-  getSyslog();
-  getErrlog();
+  }).done(function(data){
+	console.log("updatePackage" + hostIP + " " + pkgName + ": " + "running refreshMachineInfo");
+  	refreshMachineInfo(hostIP);
+});
   return false;
 
 }
-
 $( document ).ready( function(){
     var query = window.location.search.substring(1);   //gets url parameter (the client name)
     var items = query.split("&");
