@@ -4,7 +4,7 @@ function refreshMachineInfo(hostID) {
    console.log("refreshMachineInfo: refreshing errlog " + hostID); 
    getErrlog();
    console.log("refreshMachineInfo: refreshing page " + hostID); 
-   $(document).ready();
+   //$(document).ready();
    $.ajax({
     url: "",
     context: document.body,
@@ -29,6 +29,7 @@ function getSyslog() {
 }
 
 function getErrlog() {
+   $("#blocker").show();
    $.ajax({
       url:'errlog.php',
       complete: function (response) {
@@ -42,6 +43,7 @@ function getErrlog() {
 }
 
 function uninstallPackage(hostIP, pkgName){
+   $("#blocker").show();
    $.ajax({
       async: false,
       url:'uninstall.php',
@@ -65,6 +67,7 @@ function uninstallPackage(hostIP, pkgName){
 }
 
 function rollbackPackage(hostIP, pkgName){
+   $("#blocker").show();
    $.ajax({
       url:'RollbackPackage.php',
       type: 'post',
@@ -84,6 +87,7 @@ function rollbackPackage(hostIP, pkgName){
 }
 
 function UpdatePackage(hostIP, pkgName){
+      $("#blocker").show();
 	console.log("UpdatePackage on " +hostIP+ " package name = " + pkgName);
 	$.ajax({
       url:'UpdatePackage.php',
@@ -104,6 +108,7 @@ function UpdatePackage(hostIP, pkgName){
 
 }
 $( document ).ready( function(){
+    $("#blocker").show();
     var query = window.location.search.substring(1);   //gets url parameter (the client name)
     var items = query.split("&");
     var client = items[0];
@@ -153,7 +158,8 @@ $( document ).ready( function(){
     );            
     $.when.apply($, deferreds).then(function(){
          document.getElementById("demo").innerHTML=output;
-		 getSyslog();
+	 getSyslog();
          getErrlog();
+	 $("#blocker").hide();
     });
 });
