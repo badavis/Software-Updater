@@ -148,7 +148,7 @@ $( document ).ready( function(){
     			if(data.Packages.hasOwnProperty(key)) {
     				var curr = data.Packages[key];
     				output += "<tr><td></td> <td>" + key + "</td><td>" + curr + 
-    				"</td> <td class = \"" + client + key + "\"> <a onclick=\"return rollbackPackage(\'" + data.hostname + "\', \'" + key + "\');\"> Downgrade </a> </td><td class = \"" + client + key + "\"> <a onclick=\"return uninstallPackage(\'" + data.hostname + "\', \'" + key + "\');\"> Uninstall </a> </td></tr>";
+    				"</td> <td class = \"" + client + key + "\"> <a onclick=\"return rollbackPackage(\'" + data.hostname + "\', \'" + key + "\');\"> <span style=\"cursor:pointer\">Downgrade</span> </a> </td><td class = \"" + client + key + "\"> <a onclick=\"return uninstallPackage(\'" + data.hostname + "\', \'" + key + "\');\"> <span style=\"cursor:pointer\"> Uninstall </span> </a> </td></tr>";
     				console.log('adding click handler:' + client + key);
     			}
     
