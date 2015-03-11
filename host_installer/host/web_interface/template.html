@@ -247,7 +247,30 @@
 </table>
 
   
-    
+    <style type="text/css" media="screen">
+            #blocker
+			{
+				position: fixed;
+				top: 0;
+				left: 0;
+				width: 100%;
+				height: 100%;
+				opacity: .5;
+				background-color: #111;
+				z-index: 1000;
+			}
+			IMG.blocker {
+				width: 50%;
+				height: 50%;
+				display: block;
+				margin-left: auto;
+				margin-right: auto;
+			}
+			
+        </style>
+	<div id="blocker">
+       <div><img class="blocker" src="/img/loading.gif" alt="Loading..."></img></div>
+   </div>
 
 
 

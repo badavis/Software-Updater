@@ -26,6 +26,7 @@ function getErrlog() {
 
 //A specific machine will need to be specified in the arguments to this method
 function UpdateAll(hostIP) {
+   $("#blocker").show();
    var hosty = hostIP;
    //console.log($hosty);
    $.ajax({
@@ -34,9 +35,11 @@ function UpdateAll(hostIP) {
       data: {host: hosty},
       complete: function (response) {
           $('#output').html(response.responseText);
+          $("#blocker").hide();
       },
       error: function () {
           $('#output').html('Bummer: there was an error!');
+	  $("#blocker").hide();
       }
 
   });
@@ -44,6 +47,12 @@ function UpdateAll(hostIP) {
   getErrlog();
   console.log("HEllo");
   return false;
+}
+function UpdateAllMachines(hostList){
+	for(hosts in hostList){
+		UpdateAll(hosts);
+		$("#blocker").hide();	
+	}
 }
 
 
@@ -92,9 +101,10 @@ function revertDropdown(data, output){
      
 }
 
-function createCH(clientName){
-   $('#demo').on('click', '#' + clientName, function(){
-		//generateDropdown(clientName);
+function createCH(clients){
+   $('#demo').on('click', "#updateallmachines", function(){
+		document.getElementById("updateallmachines").innerHTML="Running in background...";
+		UpdateAllMachines(clients);
 	});
 }
 
@@ -145,6 +155,7 @@ function listPackages(clientName){
        output +="<td><a href=all_packages.html?" + clientName + "&all>View All Packages</a></td><td><a href=all_packages.html?" + clientName + "&outdated>View Outdated Packages</a></td><td id=\"output\">" + "output goes here" + "</td>";
 
 	    document.getElementById("demo").innerHTML+=output;
+	    $("#blocker").hide();
 
       }));
 	   $.when.apply($, deferreds).then(function(){
@@ -170,6 +181,7 @@ $( document ).ready(function() {
       })
    );
    $.when.apply($, deferreds).then(function(){
+      $("#blocker").hide();
       for(var key in clients){
          createCH(key);
       }
@@ -183,5 +195,6 @@ $( document ).ready(function() {
          var html = [];
          html.push(listPackages(key));
       }
+      $("#blocker").hide();
    });
 });
