@@ -130,7 +130,7 @@ $( document ).ready( function(){
         
         var key, count = 0;
         if(pageType == "outdated"){
-            output = "<tr><td id=\"" + client + "\">" + client + "</td>" + "<td>Package Name </td> <td> Old Version </td> <td> New Version </td> </tr>";
+            output = "<tr><td id=\"" + client + "\">" + client + "</td>" + "<td>Package Name </td> <td> Old Version </td> <td> New Version </td><td> </td> </tr>";
     		for(key in data.Packages) {
     			if(data.Packages.hasOwnProperty(key)) {
     				var old = data.Packages[key][0];

@@ -137,7 +137,7 @@ function listPackages(clientName){
 				else{
 					output+="<td style=\"color:red\">" + "NO" + "</td>";
 				}
-				output+="<td>" + "BRUH" + "</td>";
+				
 
 				output+="<td>" + "<a href=\"#output\" onclick=\"return UpdateAll(\'" + data.hostname + "\');\"> Update All Packages </a>" + "</td>";
 				output+="<td><a href=all_packages.html?" + clientName + "&all>View All Packages</a></td><td><a href=all_packages.html?" + clientName + "&outdated>View Outdated Packages</a></td><td id=\"output\"></td>";
@@ -150,7 +150,7 @@ function listPackages(clientName){
             
       }).fail(function() { 
 	    output +="<tr ><td id=\"" + clientName + "\">"+clientName+"</td>";
-	    output +="<td style=\"color:blue\"> YES </td> <td color=\"cyan\"> TODO </td>";
+	    output +="<td style=\"color:green\"> YES </td>";
 	    output +="<td>" + "<a href=\"#output\" onclick=\"return UpdateAll(\'" + clientName + "\');\"> Update All Packages </a>" + "</td>";
        output +="<td><a href=all_packages.html?" + clientName + "&all>View All Packages</a></td><td><a href=all_packages.html?" + clientName + "&outdated>View Outdated Packages</a></td><td id=\"output\">" + "output goes here" + "</td>";
 
@@ -182,7 +182,7 @@ $( document ).ready(function() {
    );
    $.when.apply($, deferreds).then(function(){
       $("#blocker").hide();
-      var output = "<tr> <td> List of Machines </td> <td>Up To Date </td> <td>Online State</td> <td> Update </td><td>All Packages</td> <td>Out of Date Packages</td> <td> <a id=\"updateallmachines\"><span style =\"cursor:pointer\">Update All Machines</span></a> </td> </tr>";
+      var output = "<tr> <td> List of Machines </td> <td>Up To Date </td><td> Update </td><td>All Packages</td> <td>Out of Date Packages</td> <td> <a id=\"updateallmachines\"><span style =\"cursor:pointer\">Update All Machines</span></a> </td> </tr>";
       document.getElementById("demo").innerHTML=output;
       $("#blocker").hide();
       for(var key in clients){
