@@ -40,7 +40,7 @@ mv ./$host_id.pub ~/.ssh
 
 #Install web interface to appropriate location
 cp -a ./host/web_interface/* /var/www/html
-chmod -R 777 /var/www/html
+chmod -R 755 /var/www/html
 
 #Bug #2 - Modify html configuration file as appropriate
 sed -i "s/#ServerName www.example.com:80/#ServerName www.example.com:80\n\nServerName localhost:80/g" /etc/httpd/conf/httpd.conf
@@ -52,13 +52,13 @@ chkconfig httpd on
 #Copy program files
 mkdir /var/www/html/sccm
 cp -a ./host/program_files/* /var/www/html/sccm
-chmod -R 777 /var/www/html/sccm
+chmod -R 755 /var/www/html/sccm
 
 #---------------------------------------
 #   CREATE CLIENT FILES AND INSTALLER
 #---------------------------------------
 
-#Add host machine IP and hostname to required areas in client scripts
+#Dynamically modify files based on environment
 sed -i "s/GENERATED_HOST_IP/$host_ip/g" ./host/client_gen/client_install.sh
 sed -i "s/GENERATED_HOST_ID/$host_id/g" ./host/client_gen/client_install.sh
 sed -i "s/GENERATED_HOST_ID/$host_id/g" ./host/client_gen/client/program_files/*
@@ -70,3 +70,14 @@ cp ~/.ssh/$host_id.pub ./host/client_gen/client/keys
 #Create and populate client installer directory
 mkdir ./client_installer
 cp -a ./host/client_gen/* ./client_installer
+
+#Summary of changes (Only outputs if no errors)
+echo ""
+echo ""
+echo -e "Installing Dependencies:                                   [  "'\e[00;32m'OK'\e[00m'"  ]"
+echo -e "Generating SSH Keys:                                       [  "'\e[00;32m'OK'\e[00m'"  ]"
+echo -e "Copying Program Files:                                     [  "'\e[00;32m'OK'\e[00m'"  ]"
+echo -e "Configuring Web Server:                                    [  "'\e[00;32m'OK'\e[00m'"  ]"
+echo -e "Creating client installer:                                 [  "'\e[00;32m'OK'\e[00m'"  ]"
+echo ""
+echo ""

@@ -10,9 +10,10 @@ if(ssh2_auth_password($ssh, 'root', 'awesomegroup')){
 else{
 	die('Authentication failed');
 }
-ssh2_exec($ssh, "/etc/sccm/UpdatePackage.sh $name");
+ssh2_exec($ssh, "/etc/sccm/rollbackPackage.sh $name");
 ssh2_exec($ssh, "/etc/sccm/getlogdata.pl");
 ssh2_exec($ssh, "/etc/sccm/getpkgdata.pl");
 ssh2_exec($ssh, "exit");
+
 
 ?>
