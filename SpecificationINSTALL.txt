@@ -114,11 +114,6 @@ At a minumum, it should include:
 				mkdir /var/www/html/sccm
 				cp -a ./host/program_files/* /var/www/html/sccm
 				chmod -R 755 /var/www/html/sccm		
-			
-			Client:Copy program files
-				mkdir /etc/sccm
-				cp -a ./client/program_files/* /etc/sccm
-				chmod -R 755 /etc/sccm	
 					
 		#4.Host: Add host machine IP and hostname to required areas in client scripts
 			sed -i "s/GENERATED_HOST_IP/$host_ip/g" ./host/client_gen/client_install.sh
@@ -137,13 +132,17 @@ At a minumum, it should include:
 
 			Take this folder and place it in the HOME DIRECTORY of any client machine you wish to add
 			
-		#7.Client: Allow hostname resolution client -> host (Only needed if no DNS)
-			echo GENERATED_HOST_IP   GENERATED_HOST_ID >> /etc/hosts	
+		#7. Client:Copy program files
+				mkdir /etc/sccm
+				cp -a ./client/program_files/* /etc/sccm
+				chmod -R 755 /etc/sccm	
 		
-		#8.Client: Set up client -> host connection
-			cat ~/.ssh/$client_id.pub | ssh root@GENERATED_HOST_ID "mkdir -p ~/.ssh && cat >> ~/.ssh/authorized_keys"
+		#8.	Client: Allow hostname resolution client -> host (Only needed if no DNS)
+						echo GENERATED_HOST_IP   GENERATED_HOST_ID >> /etc/hosts	
+					Set up client -> host connection
+						cat ~/.ssh/$client_id.pub | ssh root@GENERATED_HOST_ID "mkdir -p ~/.ssh && cat >> ~/.ssh/authorized_keys"
 
-		#9.Client: Allow hostname resolution host -> client (Only needed if no DNS)
+		#9.	Client: Allow hostname resolution host -> client (Only needed if no DNS)
 			ssh root@GENERATED_HOST_ID -t -i ~/.ssh/$client_id "echo $client_ip   $client_id >> /etc/hosts"
 
 		#10.Client: Set up host -> client connection and add client to list of monitored machines
