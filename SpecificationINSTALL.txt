@@ -1,5 +1,36 @@
 Specification: INSTALL
 
+
+
+Assumptions for install:
+
+	OS: CentOS 6.6 Working DNS server that allows hostname resolution on the local network You will secure the program installation (Permissions 755 by default) 
+
+	Program is installed for the same user on all machines (with sudo).
+	All machines are on the same local network.
+
+To deploy project:
+
+    Download the "host_installer" folder and place in the HOME DIRECTORY of your server
+    
+    To automate the installation, CD into "host_installer" and run "host_install.sh"
+   
+    Once the installation completes a new folder should appear in "host_installer" called "client_installer"
+	
+	You should now be able to view the web dashboard by navigating to the address below on your server: http://localhost/template.html
+	
+    Take this folder and place it in the HOME DIRECTORY of any client machine you wish to add
+
+    CD into "client_installer" and run "client_install.sh" completing any required prompts
+    Refresh the web dashboard and you should see your new client machinein the monitored list.
+
+	Upon refreshing the web dashboard on the server you should see your new client machine and be able to see packages that needs updating.
+
+
+
+
+***The description below explains what the automated host/client installation scripts do step by step.***
+
 The INSTALL should provide instructions on how to set up an environment for your project from scratch.  
 At a minumum, it should include:
 
@@ -29,26 +60,18 @@ At a minumum, it should include:
 	
 
     2. A description of any configuration file modifications that need to be made 
-    for the project to operate properly. 
-		
+    for the project to operate properly.
 		
 		#1.Host: Modify html configuration file as appropriate
 			sed -i "s/#ServerName www.example.com:80/#ServerName www.example.com:80\n\nServerName localhost:80/g" /etc/httpd/conf/httpd.conf
 
-
-
-
     3. A list of any commands that need to be run in order to make the project work.  
     For example, generating SSH keys for remote computer access.
-		
 		
 		#1.Host:Install ssh2 extension for php
 			yes '' | pecl install -f ssh2
 			touch /etc/php.d/ssh2.ini
 			echo extension=ssh2.so > /etc/php.d/ssh2.ini
-		
-		
-		
 		
 		#2.Need to generate ssh keys for the authentication between client and host machines:
 	
@@ -56,30 +79,47 @@ At a minumum, it should include:
 				mkdir ~/.ssh
 				chmod 700 ~/.ssh
 			
-			
 			2) Host: Generate SSH keys to appropriate location for master machines
-				host_id=`hostname`
+				host_id=`hostname`	
+				host_ip=`ifconfig | grep -Eo 'inet (addr:)?([0-9]*\.){3}[0-9]*' | grep -Eo '([0-9]*\.){3}[0-9]*' | grep -v '127.0.0.1'`
 				ssh-keygen -q -f "$host_id" -N ""
 				mv ./$host_id ~/.ssh
 				mv ./$host_id.pub ~/.ssh
 				
-			3) Client: Generate SSH keys to appropriate location for client machines
+			3) Copy public key to use in client installer
+				mkdir ./host/client_gen/client/keys
+				cp ~/.ssh/$host_id.pub ./host/client_gen/client/keys	
+				
+			4) Client: Generate SSH keys to appropriate location for client machines
+				client_ip=`ifconfig | grep -Eo 'inet (addr:)?([0-9]*\.){3}[0-9]*' | grep -Eo '([0-9]*\.){3}[0-9]*' | grep -v '127.0.0.1'`
+				client_id=`hostname`
+				replacement_string="$client_id\": [\n\t\t\"$client_ip\"\n\t],\n\t\"comment"	
 				ssh-keygen -q -f "$client_id" -N ""
 				mv ./$client_id ~/.ssh
 				mv ./$client_id.pub ~/.ssh
 	
-			
-		#3.Make the necessary directories to store logs, scripts and such
+		#3.Make and move the necessary directories and scripts
 			Host:
 				mkdir /var/www/html/sccm
-				cp -a ./host/program_files/* /var/www/html/sccm
 				chmod -R 777 /var/www/html/sccm	
-			
 			Client:
 				mkdir /etc/sccm
-				cp -a ./client/program_files/* /etc/sccm
 				chmod -R 777 /etc/sccm	
-		
+				
+			Host:Install web interface to appropriate location
+				cp -a ./host/web_interface/* /var/www/html
+				chmod -R 755 /var/www/html
+					
+			Host:Copy program files
+				mkdir /var/www/html/sccm
+				cp -a ./host/program_files/* /var/www/html/sccm
+				chmod -R 755 /var/www/html/sccm		
+			
+			Client:Copy program files
+				mkdir /etc/sccm
+				cp -a ./client/program_files/* /etc/sccm
+				chmod -R 755 /etc/sccm	
+					
 		#4.Host: Add host machine IP and hostname to required areas in client scripts
 			sed -i "s/GENERATED_HOST_IP/$host_ip/g" ./host/client_gen/client_install.sh
 			sed -i "s/GENERATED_HOST_ID/$host_id/g" ./host/client_gen/client_install.sh
@@ -93,18 +133,17 @@ At a minumum, it should include:
 			mkdir ./client_installer
 			cp -a ./host/client_gen/* ./client_installer
 			
-		#7.Client: Allow hostname resolution client -> host
-			echo GENERATED_HOST_IP   GENERATED_HOST_ID >> /etc/hosts	
+			A new folder should appear in "host_installer" called "client_installer"
+
+			Take this folder and place it in the HOME DIRECTORY of any client machine you wish to add
 			
-		#7.5 Client: Set Variables
-			client_ip=`ifconfig | grep -Eo 'inet (addr:)?([0-9]*\.){3}[0-9]*' | grep -Eo '([0-9]*\.){3}[0-9]*' | grep -v '127.0.0.1'`
-			client_id=`hostname`
-			replacement_string="$client_id\": [\n\t\t\"$client_ip\"\n\t],\n\t\"comment"	
+		#7.Client: Allow hostname resolution client -> host (Only needed if no DNS)
+			echo GENERATED_HOST_IP   GENERATED_HOST_ID >> /etc/hosts	
 		
 		#8.Client: Set up client -> host connection
 			cat ~/.ssh/$client_id.pub | ssh root@GENERATED_HOST_ID "mkdir -p ~/.ssh && cat >> ~/.ssh/authorized_keys"
 
-		#9.Client: Allow hostname resolution host -> client
+		#9.Client: Allow hostname resolution host -> client (Only needed if no DNS)
 			ssh root@GENERATED_HOST_ID -t -i ~/.ssh/$client_id "echo $client_ip   $client_id >> /etc/hosts"
 
 		#10.Client: Set up host -> client connection and add client to list of monitored machines
@@ -132,19 +171,17 @@ At a minumum, it should include:
 			chkconfig httpd on
 	
 			
-
-
     4. If there are any further steps (for example, either downloading or compiling 
 	code, or setting up a user to access the administrative webpage for the project), 
 	a description of those steps.
 	
+		#1. Host: Need to download the 'host_installer' from:	
+			https://github.com/badavis/183Project
 		
 		
-
-		
-	
     5. A description of how the user who set up the project will know that it's 
     working correctly.
 		
-		Upon refreshing the web dashboard on the server you should see your new 
-	client machine and be able to see packages that needs updating.
+		You should now be able to view the web dashboard by navigating to the address below on your server: http://localhost/template.html
+		You can add any arbituary number of client machines by moving "client_installer" into those machines and running "client_install.sh".
+		There should be a table entry for each added client, and the corresponding options to update, rollback, remove packages on these machines.
