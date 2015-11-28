@@ -21,4 +21,4 @@ To deploy project:
    Take this folder and place it in the HOME DIRECTORY of any client machine you wish to add
 
 5. CD into "client_installer" and run "client_install.sh" completing any required prompts
-6. Refresh the web dashboard and you should see your new client machinein the monitored list.
+6. Refresh the web dashboard and you should see your new client machine in the monitored list.
